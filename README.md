@@ -16,15 +16,16 @@ For the first version, webidl.js will take as input well-formed Web IDL and give
 WebIDL.js would build on Robin Berjon's [WebIDL Parser](https://github.com/darobin/webidl2.js), 
 
 ```
-WebIDL : [WebIDL2](https://github.com/darobin/webidl2.js){
-       implement(DOMString idlFragment);
-       toJS(DOMString idlFragment);
+interface WebIDL : WebIDL2{
+      void implement(DOMString idlFragment);
+      DOMString toJS(DOMString idlFragment);
 }
 
-[WebIDL2](https://github.com/darobin/webidl2.js){
+interface WebIDL2{
   object parse(); 
 }
 ```
+Where ```WebIDL2``` is [https://github.com/darobin/webidl2.js](https://github.com/darobin/webidl2.js)
 
 ##Examples of what we want to do
 (The following examples are hypothetical, as we don't actually have any running code yet! :) )
