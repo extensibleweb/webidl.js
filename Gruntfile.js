@@ -2,6 +2,7 @@ module.exports = function (grunt) {
   "use strict";
 
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
 
     uglify: {
@@ -28,13 +29,34 @@ module.exports = function (grunt) {
         jshintrc: '.jshintrc'
       },
       all: ['lib/**/*.js']
+    },
+
+    qunit: {
+      options: {
+        timeout: 20000
+      },
+      all: {
+        options: {
+          urls: ["http://localhost:8000/test/index.html"]
+        }
+      }
+    },
+    
+    connect: {
+      server: {
+        port: 8000,
+        base: "."
+      }
     }
 
   });
 
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks("grunt-contrib-qunit");
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['jshint', 'uglify']);
+  grunt.registerTask('test', ['connect', 'qunit']);
+  grunt.registerTask('default', ['jshint', 'test', 'uglify']);
 
 };
