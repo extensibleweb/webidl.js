@@ -1,5 +1,6 @@
 {
-	"proto": false,
+	"proto": true,
+	"evil": true,
 	"devel": true,
 	"forin": true,
 	"noarg": true,

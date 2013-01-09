@@ -3,9 +3,8 @@
   "description": "An implementation of WebIDL in ECMAScript.",
   "version": "0.0.1",
   "devDependencies": {
-    "grunt": "~0.4.0",
+    "grunt": "~0.4.0rc4",
     "grunt-contrib-jshint": "~0.1.0",
-    "grunt-contrib-uglify": "~0.1.0",
-    "grunt-linter": "~0.2.0"
+    "grunt-contrib-uglify": "~0.1.0"
   }
 }

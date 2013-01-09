@@ -23,41 +23,18 @@ module.exports = function (grunt) {
       }
     },
 
-    linter: {
-      files: [ 
-          'Gruntfile.js',
-          'lib/**/*.js'
-      ],
-      directives: {
-        "proto": false,
-        "devel": true,
-        "forin": true,
-        "noarg": true,
-        "noempty": true,
-        "eqeqeq": true,
-        "bitwise": false,
-        "strict": true,
-        "undef": true,
-        "unused": true,
-        "curly": true,
-        "browser": true,
-        "indent": 2,
-        "maxerr": 50,
-        "predef":["exports","module","window","require","define"]
-      },
-      globals: {
-          jQuery: true
-      },
+    jshint: {
       options: {
-          errorsOnly: true,
-          linter: 'deps/jshint.js'
-      }
+        jshintrc: '.jshintrc'
+      },
+      all: ['lib/**/*.js']
     }
+
   });
 
-  grunt.loadNpmTasks('grunt-linter');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['linter', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'uglify']);
 
 };
