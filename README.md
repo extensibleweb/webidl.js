@@ -4,21 +4,22 @@ An implementation of [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) in [ECMAScr
 
 ## Goals and Scope
 
-The initial goal of this project is to implement the [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) specification in [ECMAScript](http://es5.github.com/) (i.e., implement the [WebIDL ECMAScript bindings](http://dev.w3.org/2006/webapi/WebIDL/#ecmascript-binding)). 
+The initial goal of this project is to implement a polyfill code generator based on the [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) specification in [ECMAScript](http://es5.github.com/) (i.e., implement the [WebIDL ECMAScript bindings](http://dev.w3.org/2006/webapi/WebIDL/#ecmascript-binding)). 
 
-For the first version, webidl.js will take as input well-formed Web IDL and give the developer the ability to do the following: 
+For the first version, webidl.js will take as input well-formed Web IDL and give the developer the ability to generate some JavaScript source code that: 
 
-  1. implement the interface in the Browser
-  2. generate source code that can be used indepedently of webidl.js. 
+  1.  implement properly the given WebIDL interfaces following the ECMAScript binding rules
+  2.  can be eval'ed immediately to implement a noop object based on the interface
+  3.  can be used indepedently of webidl.js (and any library)
 
 #Proposed Architecture (in WebIDL)
 
-WebIDL.js would build on Robin Berjon's [WebIDL Parser](https://github.com/darobin/webidl2.js), 
+WebIDLCompiler will be based on Robin Berjon's [WebIDL Parser](https://github.com/darobin/webidl2.js), 
 
 ```
-interface WebIDL : WebIDL2{
-      void implement(DOMString idlFragment);
-      DOMString toJS(DOMString idlFragment);
+interface WebIDLCompiler : WebIDL2{
+      DOMString compile(DOMString dataFragment);
+	  DOMString compile(object dataTree);
 }
 
 interface WebIDL2{
@@ -33,54 +34,56 @@ Where ```WebIDL2``` is [https://github.com/darobin/webidl2.js](https://github.co
 Given some WebIDL, like: 
 
 ```JavaScript
+interface Vehicle {
+	void move();
+}
+
 [Constructor, Constructor(DOMString make, optional DOMString model)]
-interface Car : Vehicle{
+interface Car : Vehicle {
      const octet maxspeed = 200;
      attribute DOMString make;
      attribute DOMString model;
      void drive([Clamp] octet speed);
 };
-
-interface Vehicle{}
 ```
 
 webidl.js will implement the following in the browser: 
 
 ```JavaScript
 
-var webIDL = new WebIDL();
+var webIDL = new WebIDLCompiler();
 
 //convert to javascript
-var script = webIDL.toScript(carIDLString);
-//these would be equivelent
-webIDL.implement(carIDLString)
+var script = webIDL.compile(carIDLString);
 eval(script); // noop methods by default
 
-//adds interfaces to the global scope
+// interfaces are added to the global scope
 console.log(window.Car);
 console.log(window.Vehicle);
 console.log(window.Car.prototype.drive);
 console.log(Car.maxspeed === 200); 
 
+// instances are valid and inheritance works properly
 var car = new Car(); 
 console.log(car instanceof window.Car === true); 
-//Check inheritance
 console.log(car instanceof window.Vehicle === true); 
 console.log("make" in car === true); 
+console.log("move" in car === true); 
 
-//The following are equivelent
+// methods can be called on instances
 car.drive();
 window.Car.prototype.drive.call(car)
 
-//type checking 
-try{
-    //throws type error
-    car.drive({}); 
-}catch(e){}
+// methods can't be called on other objects (throws a type error)
+try{ window.Car.prototype.drive.call({}); }
+catch(e){} 
 
-//type conversion
+// type checking is built-in (throws a type error)
+try{ car.drive({}); }
+catch(e){}
 
-car.drive( " 100 "); 
+// type conversion is also buit-in
+car.drive("100"); 
 ```
 
 # Contributing
