@@ -1,12 +1,10 @@
 /*
 To add:
-  RegExp
   unsigned long
   long long
   unsigned long long
   float
   unrestricted float
-  
 */
 
 module("WebIDL Interface");
@@ -27,5 +25,6 @@ asyncTest("should exist in global", function() {
     ok(window.WebIDL.Long, "WebIDL Long type is global.");
     ok(window.WebIDL.UnrestrictedDouble, "WebIDL Unrestricted Double is global");
     ok(window.WebIDL.ByteString, "WebIDL ByteString is global");
+    ok(window.WebIDL.RegExp, "WebIDL RegExp is global");
   }, 200);
 });
