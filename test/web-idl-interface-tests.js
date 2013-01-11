@@ -6,13 +6,12 @@ To add:
   unsigned long long
   float
   unrestricted float
-  ByteString
+  
 */
 
 module("WebIDL Interface");
 
 asyncTest("should exist in global", function() {
-
   setTimeout(function() {
     QUnit.start();
     ok(window.WebIDL, "WebIDL is global.");
@@ -27,5 +26,6 @@ asyncTest("should exist in global", function() {
     ok(window.WebIDL.Date, "WebIDL Date type is global.");
     ok(window.WebIDL.Long, "WebIDL Long type is global.");
     ok(window.WebIDL.UnrestrictedDouble, "WebIDL Unrestricted Double is global");
+    ok(window.WebIDL.ByteString, "WebIDL ByteString is global");
   }, 200);
 });
