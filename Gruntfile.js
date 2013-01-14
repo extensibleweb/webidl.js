@@ -12,13 +12,8 @@ module.exports = function (grunt) {
       dist: {
         src: [
           'lib/webidl.js', 
-          'lib/interfaces/WebIDL.js', 
-          'lib/types/Boolean.js', 
-          'lib/types/Date.js',
-          'lib/types/DOMString.js',
-          'lib/types/Double.js',
-          'lib/types/IDLType.js',
-          'lib/types/Octet.js'
+          'lib/interfaces/*.js', 
+          'lib/types/*.js'
         ],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
       }
