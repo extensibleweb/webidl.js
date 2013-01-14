@@ -1,8 +1,9 @@
-module("WebIDL Boolean");
-
 require(["types/Boolean"], function(boolFunc){
 
+  module("WebIDL Boolean");
+
   test("Boolean global", function(){
+    ok(window.WebIDL.Boolean, "WebIDL Boolean type is global.");
     ok(boolFunc, "Sanity check");
     equal(typeof(boolFunc), "function", "Should be a function.");
   });
