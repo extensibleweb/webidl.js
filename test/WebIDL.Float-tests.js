@@ -3,7 +3,7 @@
  * The Float type represents a 32-bit IEEE-754 floating point number.
  * http://dev.w3.org/2006/webapi/WebIDL/#es-float
  **/
-require(["types/Float"], function() {
+require(['types/Float'], function() {
 	'use strict';
 
 	var assertion, QUnit = window.QUnit;
@@ -15,10 +15,10 @@ require(["types/Float"], function() {
 
 	// Taken from http://www.wirfs-brock.com/allen/posts/128
 	var isNegative0 = function(x) {
-		if (x!==0) return false;
-		var obj=Object.freeze({z:-0});
+		if (x !== 0) return false;
+		var obj = Object.freeze({z: -0});
 		try {
-			Object.defineProperty(obj,'z',{value:x});
+			Object.defineProperty(obj, 'z', {value: x});
 		} catch (e) {
 			return false;
 		}
@@ -75,12 +75,13 @@ require(["types/Float"], function() {
 		QUnit.throws(function() {
 			window.WebIDL.Float(340282360000000000000000000000000000000);
 		}, TypeError, 'Overflow throws');
-		QUnit.strictEqual(window.WebIDL.Float(340282350000000000000000000000000000000), 340282346638528859811704183484516925440, "Rounds down to largest available");
+		QUnit.strictEqual(window.WebIDL.Float(340282350000000000000000000000000000000), 340282346638528859811704183484516925440, 'Rounds down to largest available');
 	});
 
 	assertion = 'If y is +0 and x is negative, return −0.';
 	QUnit.test(assertion, function() {
 		QUnit.strictEqual(isNegative0(window.WebIDL.Float(-8e-47)), true);
+		QUnit.strictEqual(isNegative0(window.WebIDL.Float(8e-47)), false);
 	});
 
 	assertion = 'The type name of the Float type is “Float”.';
