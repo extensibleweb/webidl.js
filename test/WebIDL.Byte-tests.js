@@ -44,19 +44,6 @@ require(["types/Byte"], function() {
 		QUnit.strictEqual(window.WebIDL.Byte('	-123.123  '), -123, 'everything after . gets dropped');
 	});
 
-	assertion = 'If x is NaN, +0, −0, +∞, or −∞, then return the IDL byte value that represents 0.';
-	QUnit.test(assertion, function() {
-		var zero = window.WebIDL.Byte(-0);
-		QUnit.strictEqual(zero, 0, '-0, so 0');
-		QUnit.strictEqual(isNegative0(zero), false, '-0, so 0');
-		QUnit.strictEqual(window.WebIDL.Byte(NaN), 0, 'NaN is NaN, so 0');
-		QUnit.strictEqual(window.WebIDL.Byte(/123/), 0, 'Regex is NaN, which is 0');
-		QUnit.strictEqual(window.WebIDL.Byte([]), 0, 'Empty array is NaN, so 0');
-		QUnit.strictEqual(window.WebIDL.Byte({}), 0, 'Object is NaN, so 0');
-		QUnit.strictEqual(window.WebIDL.Byte(+Infinity), 0, 'Object is NaN, so 0');
-		QUnit.strictEqual(window.WebIDL.Byte(-Infinity), 0, 'Object is NaN, so 0');
-	});
-
 	assertion = '[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.';
 	QUnit.test(assertion, function() {
 		QUnit.throws(function() {
@@ -87,12 +74,29 @@ require(["types/Byte"], function() {
 		QUnit.strictEqual(window.WebIDL.Byte(-1000, 'Clamp'), -128, '-1000 Clamped to -128');
 	});
 
-	assertion = '[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two, and choosing +0 rather than −0.';
+	assertion = '[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two';
 	QUnit.test(assertion, function() {
 		QUnit.strictEqual(window.WebIDL.Byte(0.5, 'Clamp'), 0, '0.5 rounds to 0');
 		QUnit.strictEqual(window.WebIDL.Byte(3.5, 'Clamp'), 4, '3.5 rounds to 4');
 		QUnit.strictEqual(window.WebIDL.Byte(4.5, 'Clamp'), 4, '4.5 rounds to 4');
-		//NOTE: Can't represent +0 and -0 in JS.
+	});
+
+	assertion = "[Clamp] choosing +0 rather than −0.";
+	QUnit.test(assertion, function() {
+		var value = window.WebIDL.Byte(-0.5, 'Clamp');
+		QUnit.strictEqual(isNegative0(value), false, '-0.5 rounds to +0');
+	});
+
+	assertion = 'If x is NaN, +0, −0, +∞, or −∞, then return the IDL byte value that represents 0.';
+	QUnit.test(assertion, function() {
+		var zero = window.WebIDL.Byte(-0);
+		QUnit.strictEqual(isNegative0(zero), false, '-0, so 0');
+		QUnit.strictEqual(window.WebIDL.Byte(NaN), 0, 'NaN is NaN, so 0');
+		QUnit.strictEqual(window.WebIDL.Byte(/123/), 0, 'Regex is NaN, which is 0');
+		QUnit.strictEqual(window.WebIDL.Byte([]), 0, 'Empty array is NaN, so 0');
+		QUnit.strictEqual(window.WebIDL.Byte({}), 0, 'Object is NaN, so 0');
+		QUnit.strictEqual(window.WebIDL.Byte(+Infinity), 0, 'Object is NaN, so 0');
+		QUnit.strictEqual(window.WebIDL.Byte(-Infinity), 0, 'Object is NaN, so 0');
 	});
 
 	assertion = 'If x ≥ 27, return the IDL byte value that represents the same numeric value as x − 28.';
