@@ -42,6 +42,10 @@ module.exports = function (grunt) {
         port: 8000,
         base: "."
       }
+    },
+
+    jsbeautifier : {
+      files : ["lib/**/*.js"]
     }
 
   });
@@ -50,8 +54,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-qunit");
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jshint', 'test', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'jsbeautifier', 'test', 'uglify']);
 
 };
