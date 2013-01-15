@@ -46,8 +46,8 @@ require(["types/Object"], function() {
 	QUnit.test(assertion, function() {
 		var obj = {},
 			inst = new WebIDL.Object(WebIDL.Object);
-		QUnit.equal(inst.value, WebIDL.Object, 'Object in, same object out');
+		QUnit.strictEqual(inst.value, WebIDL.Object, 'Object in, same object out');
 		inst.value = obj;
-		QUnit.equal(inst.value, obj, 'Object in, same object out');
+		QUnit.strictEqual(inst.value, obj, 'Object in, same object out');
 	});
 });
