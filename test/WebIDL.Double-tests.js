@@ -3,21 +3,6 @@ require(["types/Double"], function() {
 
 	var assertion, QUnit = window.QUnit;
 
-	function isNegative0(x) {
-		if(x !== 0) return false;
-		var obj = Object.freeze({
-			z: -0
-		});
-		try {
-			Object.defineProperty(obj, 'z', {
-				value: x
-			});
-		} catch(e) {
-			return false;
-		}
-		return true;
-	}
-
 	module('WebIDL Double', {
 		setup: function() {},
 		teardown: function() {}
