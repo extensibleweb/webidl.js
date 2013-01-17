@@ -3,22 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title>Web-IDL Unit Tests</title>
-  <link rel="stylesheet" type="text/css" href="lib/qunit-1.10.0.css">
+  <link rel="stylesheet" type="text/css" href="/lib/qunit-1.10.0.css">
   <script  src="/deps/require.js"></script>
+  <script type="text/javascript">
+		requirejs.config({baseUrl: "."});
+	</script>
   <script src="/lib/webidl.js"></script>
 </head>
 <body>
 
   <div id="qunit"></div>
 
-  <script src="lib/qunit-1.10.0.js"></script>
-
-  <script src="web-idl-interface-tests.js"></script>
-  <script src="web-idl-type-boolean-tests.js"></script>
-  <script src="WebIDL.Boolean-tests.js"></script>
-  <script src="WebIDL.Object-tests.js"></script>
-  <script src="WebIDL.Byte-tests.js"></script>
-  <script src="WebIDL.Float-tests.js"></script>
-  <script src="WebIDL.Octet-tests.js"></script>
+  
+  <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.10.0.js"></script>
+	
+  <script src="/test/web-idl-interface-tests.js"></script>
+  <script src="/test/web-idl-type-boolean-tests.js"></script>
+  <script src="/test/WebIDL.Boolean-tests.js"></script>
+  <script src="/test/WebIDL.Object-tests.js"></script>
+  <script src="/test/WebIDL.Byte-tests.js"></script>
+  <script src="/test/WebIDL.Float-tests.js"></script>
+  <script src="/test/WebIDL.Octet-tests.js"></script>
 </body>
 </html>
