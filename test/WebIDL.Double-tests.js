@@ -24,10 +24,10 @@ require(["types/Double"], function() {
 	assertion = "If x is NaN, +Infinity or −Infinity, then throw a TypeError.";
 	QUnit.test(assertion, function() {
 		QUnit.throws(function(){
-			WebIDL.Double();
+			window.WebIDL.Double();
 		}, TypeError, "undefined is NaN");
 		QUnit.throws(function(){
-			WebIDL.Double(undefined);
+			window.WebIDL.Double(undefined);
 		}, TypeError, "undefined is NaN");
 		QUnit.throws(function() {
 			window.WebIDL.Double(NaN);
