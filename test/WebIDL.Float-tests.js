@@ -36,16 +36,16 @@ require(['types/Float'], function() {
 		QUnit.strictEqual(window.WebIDL.Float(' \t\n\t '), 0, 'random whitespace is 0');
 		QUnit.strictEqual(window.WebIDL.Float('	123  '), 123, 'Whitespace removed is 123');
 		QUnit.strictEqual(window.WebIDL.Float('	-123.123  '), -123.12300109863281, 'Converted to nearest float');
+	});
+
+	assertion = 'If x is NaN, +Infinity or −Infinity, then throw a TypeError.';
+	QUnit.test(assertion, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Float();
 		}, TypeError, 'ToNumber() is NaN so throws');
 		QUnit.throws(function() {
 			window.WebIDL.Float(undefined);
 		}, TypeError, 'ToNumber(undefined) is NaN so throws');
-	});
-
-	assertion = 'If x is NaN, +Infinity or −Infinity, then throw a TypeError.';
-	QUnit.test(assertion, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Float(NaN);
 		}, TypeError, 'NaN throws');
@@ -55,7 +55,6 @@ require(['types/Float'], function() {
 		QUnit.throws(function() {
 			window.WebIDL.Float(-Infinity);
 		}, TypeError, '-Infinity throws');
-		QUnit.strictEqual(window.WebIDL.Float(42), 42, 'valid input does not throw');
 	});
 
 	// Let S be the set of finite IEEE 754 single-precision floating point values except −0, but with two special values added: 2128 and −2128.
@@ -87,5 +86,10 @@ require(['types/Float'], function() {
 	assertion = 'The type name of the Float type is “Float”.';
 	QUnit.test(assertion, function() {
 		QUnit.strictEqual(window.WebIDL.Float.prototype.type, 'Float', 'The type is “Float”.');
+	});
+
+	assertion = "Return y.";
+	QUnit.test(assertion, function() {
+		QUnit.strictEqual(window.WebIDL.Float(42), 42, 'valid input does not throw');
 	});
 });
