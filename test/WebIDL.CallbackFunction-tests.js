@@ -58,5 +58,7 @@ require(['types/CallbackFunction'], function() {
 	QUnit.test(assertion, function() {
 		var testInstance = new window.WebIDL.CallbackFunction(function(){},"Test");
 		QUnit.strictEqual(testInstance.type, "Test", 'The type is "Test".');
+		testInstance = new window.WebIDL.CallbackFunction(function(){},"Test2");
+		QUnit.strictEqual(testInstance.type, "Test2", 'The type is "Test2".');
 	});
 });
