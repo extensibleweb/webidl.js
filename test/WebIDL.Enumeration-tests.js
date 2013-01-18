@@ -1,14 +1,14 @@
 require(['types/Enumeration'], function() {
     'use strict';
-    var assertion, QUnit = window.QUnit;
+    var requirement, QUnit = window.QUnit;
 
     module('WebIDL Enumeration', {
         setup: function() {},
         teardown: function() {}
     });
 
-    assertion = "Let S be the result of calling ToString(V).";
-    QUnit.test(assertion, function() {
+    requirement = "Let S be the result of calling ToString(V).";
+    QUnit.test(requirement, function() {
         var enums = ["bar", "test", "baz", "1", "true", "false", "Infinity", "-Infinity", "null", "undefined"],
             obj = {
                 toString: function() {
@@ -26,16 +26,16 @@ require(['types/Enumeration'], function() {
         QUnit.strictEqual(window.WebIDL.Enumeration("TestType", enums, null), "null", "expected 'null' to be returned");
     });
 
-    assertion = "If S is not one of E’s enumeration values, then throw a TypeError.";
-    QUnit.test(assertion, function() {
+    requirement = "If S is not one of E’s enumeration values, then throw a TypeError.";
+    QUnit.test(requirement, function() {
         QUnit.throws(function() {
             window.WebIDL.Enumeration("TestType", ["a", "c", "f"], "b");
         }, TypeError, "b is not a valid enum value");
 
     });
 
-    assertion = "Return the enumeration value of type E that is equal to S.";
-    QUnit.test(assertion, function() {
+    requirement = "Return the enumeration value of type E that is equal to S.";
+    QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.Enumeration("TestType", ["a", "c", "f"], "a"), "a", "expecte 'a' to be returned");
     });
 });

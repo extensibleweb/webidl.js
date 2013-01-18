@@ -6,7 +6,7 @@
 require(['types/Float'], function() {
 	'use strict';
 
-	var assertion, QUnit = window.QUnit;
+	var requirement, QUnit = window.QUnit;
 
 	module('WebIDL Float', {
 		setup: function() {},
@@ -25,8 +25,8 @@ require(['types/Float'], function() {
 		return true;
 	};
 
-	assertion = 'Let x be ToNumber(V).';
-	QUnit.test(assertion, function() {
+	requirement = 'Let x be ToNumber(V).';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Float(null), 0, 'null is 0');
 		QUnit.strictEqual(window.WebIDL.Float(''), 0, 'empty string  is 0');
 		QUnit.strictEqual(window.WebIDL.Float(0), 0, 'number 0 is 0');
@@ -38,8 +38,8 @@ require(['types/Float'], function() {
 		QUnit.strictEqual(window.WebIDL.Float('	-123.123  '), -123.12300109863281, 'Converted to nearest float');
 	});
 
-	assertion = 'If x is NaN, +Infinity or −Infinity, then throw a TypeError.';
-	QUnit.test(assertion, function() {
+	requirement = 'If x is NaN, +Infinity or −Infinity, then throw a TypeError.';
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Float();
 		}, TypeError, 'ToNumber() is NaN so throws');
@@ -59,15 +59,15 @@ require(['types/Float'], function() {
 
 	// Let S be the set of finite IEEE 754 single-precision floating point values except −0, but with two special values added: 2128 and −2128.
 	// Let y be the number in S that is closest to x, selecting the number with an even significand if there are two equally close values
-	assertion = 'Let y be the [32-bit IEEE float] that is closest to x, selecting the number with an even significand if there are two equally close values';
-	QUnit.test(assertion, function() {
+	requirement = 'Let y be the [32-bit IEEE float] that is closest to x, selecting the number with an even significand if there are two equally close values';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Float(0.1), 0.10000000149011612);
 		QUnit.strictEqual(window.WebIDL.Float(0.2), 0.20000000298023224);
 		QUnit.strictEqual(window.WebIDL.Float(3.141592653589793), 3.1415927410125732);
 	});
 
-	assertion = 'If y is 2^128 or −2^128, then throw a TypeError.';
-	QUnit.test(assertion, function() {
+	requirement = 'If y is 2^128 or −2^128, then throw a TypeError.';
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Float(Math.pow(2, 128));
 		}, TypeError, '2^128 throws');
@@ -77,19 +77,20 @@ require(['types/Float'], function() {
 		QUnit.strictEqual(window.WebIDL.Float(340282350000000000000000000000000000000), 340282346638528859811704183484516925440, 'Rounds down to largest available');
 	});
 
-	assertion = 'If y is +0 and x is negative, return −0.';
-	QUnit.test(assertion, function() {
+	requirement = 'If y is +0 and x is negative, return −0.';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(isNegative0(window.WebIDL.Float(-8e-47)), true);
 		QUnit.strictEqual(isNegative0(window.WebIDL.Float(8e-47)), false);
 	});
-
-	assertion = 'The type name of the Float type is “Float”.';
-	QUnit.test(assertion, function() {
-		QUnit.strictEqual(window.WebIDL.Float.prototype.type, 'Float', 'The type is “Float”.');
-	});
-
-	assertion = "Return y.";
-	QUnit.test(assertion, function() {
+	requirement = "Return y.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Float(42), 42, 'valid input does not throw');
 	});
+
+	requirement = 'The type name of the Float type is “Float”.';
+	QUnit.test(requirement, function() {
+		var instance = new window.WebIDL.Float(1.0);
+		QUnit.strictEqual(instance.type, 'Float', 'The type is “Float”.');
+	});
+
 });
