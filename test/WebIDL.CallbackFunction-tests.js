@@ -57,7 +57,6 @@ require(['types/CallbackFunction'], function() {
 	assertion = 'The type name of a callback function type is the identifier of the callback function.';
 	QUnit.test(assertion, function() {
 		var testInstance = new window.WebIDL.CallbackFunction(function(){},"Test");
-		QUnit.strictEqual(window.WebIDL.CallbackFunction.prototype.type, undefined, 'The type is initially undefined.');
 		QUnit.strictEqual(testInstance.type, "Test", 'The type is "Test".');
 	});
 });
