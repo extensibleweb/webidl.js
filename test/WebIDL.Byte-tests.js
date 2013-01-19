@@ -6,7 +6,7 @@
 require(["types/Byte"], function() {
 	'use strict';
 
-	var assertion, QUnit = window.QUnit;
+	var requirement, QUnit = window.QUnit;
 
 	function isNegative0(x) {
 		if(x !== 0) return false;
@@ -28,8 +28,8 @@ require(["types/Byte"], function() {
 		teardown: function() {}
 	});
 
-	assertion = 'Initialize x to ToNumber(V).';
-	QUnit.test(assertion, function() {
+	requirement = 'Initialize x to ToNumber(V).';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Byte(), 0, 'ToNumber of no value is 0');
 		QUnit.strictEqual(window.WebIDL.Byte(null), 0, 'null is 0');
 		QUnit.strictEqual(window.WebIDL.Byte(undefined), 0, 'undefined is 0');
@@ -44,8 +44,8 @@ require(["types/Byte"], function() {
 		QUnit.strictEqual(window.WebIDL.Byte('	-123.123  '), -123, 'everything after . gets dropped');
 	});
 
-	assertion = '[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.';
-	QUnit.test(assertion, function() {
+	requirement = '[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.';
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Byte(NaN, 'EnforceRange');
 		}, TypeError, 'NaN throwns');
@@ -58,8 +58,8 @@ require(["types/Byte"], function() {
 		QUnit.strictEqual(window.WebIDL.Byte(42, 'EnforceRange'), 42, 'valid input does not throw');
 	});
 
-	assertion = '[EnforceRange] If x < −27 or x > 27 − 1, then throw a TypeError.';
-	QUnit.test(assertion, function() {
+	requirement = '[EnforceRange] If x < −27 or x > 27 − 1, then throw a TypeError.';
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Byte(Math.pow(-2, 7) - 1, 'EnforceRange');
 		}, TypeError, 'Range enforced');
@@ -68,27 +68,27 @@ require(["types/Byte"], function() {
 		}, TypeError, 'Range enforced');
 	});
 
-	assertion = '[Clamp] Set x to min(max(x, −27), 27 − 1).';
-	QUnit.test(assertion, function() {
+	requirement = '[Clamp] Set x to min(max(x, −27), 27 − 1).';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Byte(1000, 'Clamp'), 127, '1000 Clamped to 127');
 		QUnit.strictEqual(window.WebIDL.Byte(-1000, 'Clamp'), -128, '-1000 Clamped to -128');
 	});
 
-	assertion = '[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two';
-	QUnit.test(assertion, function() {
+	requirement = '[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Byte(0.5, 'Clamp'), 0, '0.5 rounds to 0');
 		QUnit.strictEqual(window.WebIDL.Byte(3.5, 'Clamp'), 4, '3.5 rounds to 4');
 		QUnit.strictEqual(window.WebIDL.Byte(4.5, 'Clamp'), 4, '4.5 rounds to 4');
 	});
 
-	assertion = "[Clamp] choosing +0 rather than −0.";
-	QUnit.test(assertion, function() {
+	requirement = "[Clamp] choosing +0 rather than −0.";
+	QUnit.test(requirement, function() {
 		var value = window.WebIDL.Byte(-0.5, 'Clamp');
 		QUnit.strictEqual(isNegative0(value), false, '-0.5 rounds to +0');
 	});
 
-	assertion = 'If x is NaN, +0, −0, +∞, or −∞, then return the IDL byte value that represents 0.';
-	QUnit.test(assertion, function() {
+	requirement = 'If x is NaN, +0, −0, +∞, or −∞, then return the IDL byte value that represents 0.';
+	QUnit.test(requirement, function() {
 		var zero = window.WebIDL.Byte(-0);
 		QUnit.strictEqual(isNegative0(zero), false, '-0, so 0');
 		QUnit.strictEqual(window.WebIDL.Byte(NaN), 0, 'NaN is NaN, so 0');
@@ -99,8 +99,8 @@ require(["types/Byte"], function() {
 		QUnit.strictEqual(window.WebIDL.Byte(-Infinity), 0, 'Object is NaN, so 0');
 	});
 
-	assertion = 'If x ≥ 27, return the IDL byte value that represents the same numeric value as x − 28.';
-	QUnit.test(assertion, function() {
+	requirement = 'If x ≥ 27, return the IDL byte value that represents the same numeric value as x − 28.';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Byte(-128), -128, '-128 is in range');
 		QUnit.strictEqual(window.WebIDL.Byte(127), 127, '127 is in range');
 		QUnit.strictEqual(window.WebIDL.Byte(128), -128, '128 goes to -128');
@@ -111,14 +111,15 @@ require(["types/Byte"], function() {
 		QUnit.strictEqual(window.WebIDL.Byte(257), 1, '256 goes to 1');
 	});
 
-	assertion = 'Otherwise, return the IDL byte value that represents the same numeric value as x.';
-	QUnit.test(assertion, function() {
+	requirement = 'Otherwise, return the IDL byte value that represents the same numeric value as x.';
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Byte(42), 42, 'returned value is 42');
 		QUnit.strictEqual(new window.WebIDL.Byte(42).value, 42, 'returned value is 42');
 	});
 
-	assertion = 'The type name of the byte type is “Byte”.';
-	QUnit.test(assertion, function() {
-		QUnit.strictEqual(window.WebIDL.Byte.prototype.type, 'Byte', 'The type is “Byte”.');
+	requirement = 'The type name of the byte type is “Byte”.';
+	QUnit.test(requirement, function() {
+		var instance = new window.WebIDL.Byte(0);
+		QUnit.strictEqual(instance.type, 'Byte', 'The type is “Byte”.');
 	});
 });

@@ -4,25 +4,25 @@
 require(['types/DOMString'], function() {
 	'use strict';
 
-	var assertion, QUnit = window.QUnit;
+	var requirement, QUnit = window.QUnit;
 
 	module('WebIDL DOMString', {
 		setup: function() {},
 		teardown: function() {}
 	});
 
-	assertion = "[TreatNullAs=EmptyString] If V is null ... return the DOMString value that represents the empty string.";
-	QUnit.test(assertion, function() {
+	requirement = "[TreatNullAs=EmptyString] If V is null ... return the DOMString value that represents the empty string.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.DOMString(null, "TreatNullAs=EmptyString"), "", 'null was treated as empty string');
 		QUnit.strictEqual(window.WebIDL.DOMString("test", "TreatNullAs=EmptyString"), "test", 'test value was treated as test string');
 	});
-	assertion = "[TreatUndefinedAs=EmptyString] If V is undefined ... return the DOMString value that represents the empty string.";
-	QUnit.test(assertion, function() {
+	requirement = "[TreatUndefinedAs=EmptyString] If V is undefined ... return the DOMString value that represents the empty string.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.DOMString(undefined, "TreatUndefinedAs=EmptyString"), "", 'undefined was treated as empty string');
 		QUnit.strictEqual(window.WebIDL.DOMString("test", "TreatUndefinedAs=EmptyString"), "test", 'test value was treated as test string');
 	});
-	assertion = "Let x be ToString(V).";
-	QUnit.test(assertion, function() {
+	requirement = "Let x be ToString(V).";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.DOMString(), "undefined", 'missing argument results in undefined');
 		QUnit.strictEqual(window.WebIDL.DOMString(null), "null", 'null is "null"');
 		QUnit.strictEqual(window.WebIDL.DOMString(undefined), "undefined", 'undefined is "undefined"');
@@ -35,13 +35,14 @@ require(['types/DOMString'], function() {
 		QUnit.strictEqual(window.WebIDL.DOMString(' \t\n\t '), " \t\n\t ", 'random whitespace preserved');
 	});
 
-	assertion = "Return the IDL DOMString value that represents the same sequence of code units as the one the ECMAScript String value x represents.";
-	QUnit.test(assertion, function() {
+	requirement = "Return the IDL DOMString value that represents the same sequence of code units as the one the ECMAScript String value x represents.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.DOMString("test"), "test", 'test value was treated as test string');
 	});
 
-	assertion = 'The type name of the string type is “String”.';
-	QUnit.test(assertion, function() {
-		QUnit.strictEqual(window.WebIDL.DOMString.prototype.type, 'String', 'The type is “String”.');
+	requirement = 'The type name of the string type is “String”.';
+	QUnit.test(requirement, function() {
+		var instance = new window.WebIDL.DOMString("");
+		QUnit.strictEqual(instance.type, 'String', 'The type is “String”.');
 	});
 });

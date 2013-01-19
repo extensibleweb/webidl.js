@@ -1,14 +1,14 @@
 require(['types/CallbackFunction'], function() {
 	'use strict';
-	var assertion, QUnit = window.QUnit;
+	var requirement, QUnit = window.QUnit;
 
 	module('WebIDL CallbackFunction', {
 		setup: function() {},
 		teardown: function() {}
 	});
 
-	assertion = "If the result of calling IsCallable(V) is false, then then throw a TypeError.";
-	QUnit.test(assertion, function() {
+	requirement = "If the result of calling IsCallable(V) is false, then then throw a TypeError.";
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.CallbackFunction();
 		}, TypeError, "Undefined needs to throw");
@@ -47,15 +47,15 @@ require(['types/CallbackFunction'], function() {
 
 	});
 
-	assertion = "Return the IDL callback function type value that represents a reference to that Function object.";
-	QUnit.test(assertion, function() {
+	requirement = "Return the IDL callback function type value that represents a reference to that Function object.";
+	QUnit.test(requirement, function() {
 		var func = function() {};
 		QUnit.strictEqual(window.WebIDL.CallbackFunction(func), func, "func was returned.");
 		QUnit.strictEqual(window.WebIDL.CallbackFunction(window.WebIDL.CallbackFunction), window.WebIDL.CallbackFunction, "callable was returned.");
 	});
 
-	assertion = 'The type name of a callback function type is the identifier of the callback function.';
-	QUnit.test(assertion, function() {
+	requirement = 'The type name of a callback function type is the identifier of the callback function.';
+	QUnit.test(requirement, function() {
 		var testInstance = new window.WebIDL.CallbackFunction(function(){},"Test");
 		QUnit.strictEqual(testInstance.type, "Test", 'The type is "Test".');
 		testInstance = new window.WebIDL.CallbackFunction(function(){},"Test2");
