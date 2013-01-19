@@ -2,7 +2,7 @@ require(["types/Boolean"], function() {
 	'use strict';
 	module("WebIDL Boolean");
 
-	var assertion, 
+	var requirement, 
 		QUnit = window.QUnit,
 		WebIDL = window.WebIDL;
 
@@ -11,18 +11,13 @@ require(["types/Boolean"], function() {
 		teardown: function() {}
 	});
 
-	assertion = 'WebIDL.Boolean is available';
-	QUnit.test(assertion, function() {
+	requirement = 'WebIDL.Boolean is available';
+	QUnit.test(requirement, function() {
 		QUnit.ok(window.WebIDL.Boolean, 'WebIDL Boolean is exposed.');
 	});
 
-	assertion = 'The type name of the boolean type is “Boolean”.';
-	QUnit.test(assertion, function() {
-		QUnit.strictEqual(WebIDL.Boolean.prototype.type, 'Boolean');
-	});
-
-	assertion = 'Let x be the result of computing ToBoolean(V).';
-	QUnit.test(assertion, function() {
+	requirement = 'Let x be the result of computing ToBoolean(V).';
+	QUnit.test(requirement, function() {
 		//falsies
 		QUnit.strictEqual(WebIDL.Boolean(), false, 'empty is falsy');
 		QUnit.strictEqual(WebIDL.Boolean(null), false, 'null is falsy');
@@ -74,7 +69,9 @@ require(["types/Boolean"], function() {
 		QUnit.strictEqual(new WebIDL.Boolean(/false/).value, true, 'RegExp is true');
 	});
 
-	QUnit.test('Converter is exposed', function() {
-		QUnit.ok(WebIDL.Boolean.prototype.converter, 'WebIDL Boolean converter is exposed.');
+	requirement = 'The type name of the boolean type is “Boolean”.';
+	QUnit.test(requirement, function() {
+		var instance = new WebIDL.Boolean(); 
+		QUnit.strictEqual(instance.type, 'Boolean');
 	});
 });

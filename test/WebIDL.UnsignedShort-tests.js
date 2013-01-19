@@ -5,7 +5,7 @@
 require(["types/UnsignedShort"], function() {
 	'use strict';
 
-	var assertion, QUnit = window.QUnit;
+	var requirement, QUnit = window.QUnit;
 
 	function isNegative0(x) {
 		if(x !== 0) return false;
@@ -27,8 +27,8 @@ require(["types/UnsignedShort"], function() {
 		teardown: function() {}
 	});
 
-	assertion = "Initialize x to ToNumber(V).";
-	QUnit.test(assertion, function() {
+	requirement = "Initialize x to ToNumber(V).";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(), 0, 'ToNumber of no value is 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(null), 0, 'null is 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(undefined), 0, 'undefined is 0');
@@ -43,8 +43,8 @@ require(["types/UnsignedShort"], function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort('	-123.123  '), 65413, 'everything after . gets dropped, modulo applied');
 	});
 
-	assertion = "[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.";
-	QUnit.test(assertion, function() {
+	requirement = "[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.";
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.UnsignedShort(NaN, 'EnforceRange');
 		}, TypeError, 'NaN throwns');
@@ -56,8 +56,8 @@ require(["types/UnsignedShort"], function() {
 		}, TypeError, '-Infinity throwns');
 	});
 
-	assertion = "[EnforceRange] If x < 0 or x > 216 − 1, then throw a TypeError.";
-	QUnit.test(assertion, function() {
+	requirement = "[EnforceRange] If x < 0 or x > 216 − 1, then throw a TypeError.";
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.UnsignedShort(-1, 'EnforceRange');
 		}, TypeError, 'Range enforced');
@@ -65,32 +65,32 @@ require(["types/UnsignedShort"], function() {
 			window.WebIDL.UnsignedShort(Math.pow(2, 16), 'EnforceRange');
 		}, TypeError, 'Range enforced');
 	});
-	assertion = "[EnforceRange] Return the IDL unsigned short value that represents the same numeric value as x.";
-	QUnit.test(assertion, function() {
+	requirement = "[EnforceRange] Return the IDL unsigned short value that represents the same numeric value as x.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(42, 'EnforceRange'), 42, 'valid input does not throw');
 	});
-	assertion = "[Clamp] Set x to min(max(x, 0), 216 − 1).";
-		QUnit.test(assertion, function() {
+	requirement = "[Clamp] Set x to min(max(x, 0), 216 − 1).";
+		QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(165535, 'Clamp'), 65535, '165535 Clamped to 65535');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(-165535, 'Clamp'), 0, '-165535 Clamped to 0');
 	});
-	assertion = "[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two";
-		QUnit.test(assertion, function() {
+	requirement = "[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two";
+		QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(0.5, 'Clamp'), 0, '0.5 rounds to 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(3.5, 'Clamp'), 4, '3.5 rounds to 4');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(4.5, 'Clamp'), 4, '4.5 rounds to 4');
 	});
-	assertion = "[Clamp] choosing +0 rather than −0.";
-		QUnit.test(assertion, function() {
+	requirement = "[Clamp] choosing +0 rather than −0.";
+		QUnit.test(requirement, function() {
 		var value = window.WebIDL.UnsignedShort(-0.5, 'Clamp');
 		QUnit.strictEqual(isNegative0(value), false, '-0.5 rounds to +0');
 	});
-	assertion = "[Clamp] Return the IDL unsigned short value that represents the same numeric value as x.";
-	QUnit.test(assertion, function() {
+	requirement = "[Clamp] Return the IDL unsigned short value that represents the same numeric value as x.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(42, 'Clamp'), 42, 'valid input does not throw');
 	});
-	assertion = "Set x to ToUint16(x) -> If number is NaN, +0, −0, +∞, or −∞, return +0.";
-	QUnit.test(assertion, function() {
+	requirement = "Set x to ToUint16(x) -> If number is NaN, +0, −0, +∞, or −∞, return +0.";
+	QUnit.test(requirement, function() {
 		var zero = window.WebIDL.UnsignedShort(-0);
 		QUnit.strictEqual(isNegative0(zero), false, '-0, so 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(NaN), 0, 'NaN is NaN, so 0');
@@ -100,21 +100,22 @@ require(["types/UnsignedShort"], function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(+Infinity), 0, 'Object is NaN, so 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(-Infinity), 0, 'Object is NaN, so 0');
 	});
-	assertion = "Let int16bit be posInt modulo 216; that is, a finite integer value k of Number type with positive sign and less than 216 in magnitude such that the mathematical difference of int and k is mathematically an integer multiple of 216.";
-	QUnit.test(assertion, function() {
+	requirement = "Let int16bit be posInt modulo 216; that is, a finite integer value k of Number type with positive sign and less than 216 in magnitude such that the mathematical difference of int and k is mathematically an integer multiple of 216.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(65536), 0, 'modulo of 65535 value is 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(131072), 0, 'modulo of 131072 value is 0');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(-1), 65535, 'modulo of -1 value is 255');
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(-2), 65534, 'modulo of -1 value is 254');
 	});
 
-	assertion = "Return the IDL unsigned short value that represents the same numeric value as x.";
-	QUnit.test(assertion, function() {
+	requirement = "Return the IDL unsigned short value that represents the same numeric value as x.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.UnsignedShort(65533), 65533, 'valid input does not throw');
 	});
 
-	assertion = 'The type name of the short type is “UnsignedShort”.';
-	QUnit.test(assertion, function() {
-		QUnit.strictEqual(window.WebIDL.UnsignedShort.prototype.type, 'UnsignedShort', 'The type is “UnsignedShort”.');
+	requirement = 'The type name of the short type is “UnsignedShort”.';
+	QUnit.test(requirement, function() {
+		var instance = new window.WebIDL.UnsignedShort(1);
+		QUnit.strictEqual(instance.type, 'UnsignedShort', 'The type is “UnsignedShort”.');
 	});
 });

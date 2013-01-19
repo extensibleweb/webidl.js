@@ -1,6 +1,6 @@
 require(["types/Object"], function() {
 	'use strict';
-	var assertion, QUnit = window.QUnit,
+	var requirement, QUnit = window.QUnit,
 		WebIDL = window.WebIDL;
 
 	module("WebIDL Object");
@@ -14,8 +14,8 @@ require(["types/Object"], function() {
 		QUnit.ok(window.WebIDL.Object, 'WebIDL Object type is exposed.');
 	});
 
-	assertion = 'If Type(V) is not Object, then throw a TypeError.';
-	QUnit.test(assertion, function() {
+	requirement = 'If Type(V) is not Object, then throw a TypeError.';
+	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			WebIDL.Object();
 		}, TypeError, 'undefined throws TypeError');
@@ -42,8 +42,8 @@ require(["types/Object"], function() {
 		}, TypeError, 'NaN throws TypeError');
 	});
 
-	assertion = 'Return the IDL object value that is a reference to the same object as V.';
-	QUnit.test(assertion, function() {
+	requirement = 'Return the IDL object value that is a reference to the same object as V.';
+	QUnit.test(requirement, function() {
 		var obj = {},
 			inst = new WebIDL.Object(WebIDL.Object);
 		QUnit.strictEqual(inst.value, WebIDL.Object, 'Object in, same object out');
