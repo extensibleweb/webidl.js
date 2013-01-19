@@ -30,7 +30,7 @@ require(['types/ByteString'], function() {
         QUnit.throws(
 
         function() {
-            window.WebIDL.ByteString("a b c \u0256 d e f")
+            window.WebIDL.ByteString("a b c \u0256 d e f");
         }, TypeError, "above 255 must throw.");
     });
 

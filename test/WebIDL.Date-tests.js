@@ -8,61 +8,61 @@ require(["types/Date"], function() {
     requirement = "If V is not an ECMAScript Date object, then throw a TypeError.";
     QUnit.test(requirement, function() {
         QUnit.throws(function() {
-            WebIDL.Date();
+            window.WebIDL.Date();
         }, TypeError, 'undefined throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(undefined);
+            window.WebIDL.Date(undefined);
         }, TypeError, 'undefined throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(null);
+            window.WebIDL.Date(null);
         }, TypeError, 'null throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(1358537498904);
+            window.WebIDL.Date(1358537498904);
         }, TypeError, 'number throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(-0.123);
+            window.WebIDL.Date(-0.123);
         }, TypeError, 'number throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date('');
+            window.WebIDL.Date('');
         }, TypeError, 'string throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(Infinity);
+            window.WebIDL.Date(Infinity);
         }, TypeError, 'Infinity throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(NaN);
+            window.WebIDL.Date(NaN);
         }, TypeError, 'NaN throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date({});
+            window.WebIDL.Date({});
         }, TypeError, 'Object throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(WebIDL);
+            window.WebIDL.Date(window.WebIDL);
         }, TypeError, 'WebIDL object throws TypeError');
         QUnit.throws(function() {
-            WebIDL.Date(function Date() {});
+            window.WebIDL.Date(function Date() {});
         }, TypeError, 'function throws TypeError');
         QUnit.throws(function() {
-            var Date = function Date() {}
-            WebIDL.Date(new Date());
+            var Date = function Date() {};
+            window.WebIDL.Date(new Date());
         }, TypeError, 'fake Date throws TypeError');
     });
 
-    requirement = "If the time value of V is NaN, then return the undefined IDL Date value."
+    requirement = "If the time value of V is NaN, then return the undefined IDL Date value.";
     QUnit.test(requirement, function() {
-        QUnit.strictEqual(WebIDL.Date(new Date(NaN)), undefined, "NaN must return undefined.");
+        QUnit.strictEqual(window.WebIDL.Date(new Date(NaN)), undefined, "NaN must return undefined.");
     });
 
-    requirement = "Return the IDL Date value that represents the same time value as V."
+    requirement = "Return the IDL Date value that represents the same time value as V.";
     QUnit.test(requirement, function() {
         var date = new Date(),
             presetDate = 1358537498904;
-        QUnit.notStrictEqual(WebIDL.Date(date), date, "The returned date must not be the same date");
-        QUnit.strictEqual(WebIDL.Date(new Date(presetDate)), presetDate, "Conversion must return the same time");
+        QUnit.notStrictEqual(window.WebIDL.Date(date), date, "The returned date must not be the same date");
+        QUnit.strictEqual(window.WebIDL.Date(new Date(presetDate)), presetDate, "Conversion must return the same time");
     });
 
-    requirement = "If V is the undefined Date value, then return a newly constructed ECMAScript Date object whose time value is NaN."
+    requirement = "If V is the undefined Date value, then return a newly constructed ECMAScript Date object whose time value is NaN.";
     QUnit.test(requirement, function() {
         var presetDate = new Date(NaN),
-            instance = new WebIDL.Date(presetDate);
+            instance = new window.WebIDL.Date(presetDate);
         QUnit.notStrictEqual(instance.value, presetDate, "Conversion must return a different date object");
         QUnit.strictEqual(isNaN(instance.value.getTime()), true, "Return time must be NaN");
     });
@@ -70,7 +70,7 @@ require(["types/Date"], function() {
     requirement = "Otherwise, return a newly constructed ECMAScript Date object that represents the same millisecond as V.";
     QUnit.test(requirement, function() {
         var presetDate = 1358537498904,
-            instance = new WebIDL.Date(new Date(presetDate)),
+            instance = new window.WebIDL.Date(new Date(presetDate)),
             time = instance.value.getTime();
         QUnit.notStrictEqual(instance.value, presetDate, "Conversion must return a different date object");
         QUnit.strictEqual(time, 1358537498904, "Return time must be the same as the original time");
