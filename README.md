@@ -12,6 +12,8 @@ For the first version, webidl.js will take as input well-formed Web IDL and give
   2.  can be eval'ed immediately to implement a noop object based on the interface
   3.  can be used indepedently of webidl.js (and any library)
 
+The generated code will not depend on any libraries. 
+
 #Proposed Architecture (in WebIDL)
 
 WebIDLCompiler will be based on Robin Berjon's [WebIDL Parser](https://github.com/darobin/webidl2.js), 
