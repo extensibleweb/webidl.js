@@ -1,15 +1,15 @@
 require(["types/Double"], function() {
 	'use strict';
 
-	var assertion, QUnit = window.QUnit;
+	var requirement, QUnit = window.QUnit;
 
 	module('WebIDL Double', {
 		setup: function() {},
 		teardown: function() {}
 	});
 
-	assertion = "Let x be ToNumber(V).";
-	QUnit.test(assertion, function() {
+	requirement = "Let x be ToNumber(V).";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Double(null), 0, 'null is 0');
 		QUnit.strictEqual(window.WebIDL.Double(''), 0, 'empty string  is 0');
 		QUnit.strictEqual(window.WebIDL.Double(0), 0, 'number 0 is 0');
@@ -21,13 +21,13 @@ require(["types/Double"], function() {
 		QUnit.strictEqual(window.WebIDL.Double('	-123.123  '), -123.123, 'white space stripped');
 	});
 
-	assertion = "If x is NaN, +Infinity or −Infinity, then throw a TypeError.";
-	QUnit.test(assertion, function() {
+	requirement = "If x is NaN, +Infinity or −Infinity, then throw a TypeError.";
+	QUnit.test(requirement, function() {
 		QUnit.throws(function(){
-			WebIDL.Double();
+			window.WebIDL.Double();
 		}, TypeError, "undefined is NaN");
 		QUnit.throws(function(){
-			WebIDL.Double(undefined);
+			window.WebIDL.Double(undefined);
 		}, TypeError, "undefined is NaN");
 		QUnit.throws(function() {
 			window.WebIDL.Double(NaN);
@@ -42,8 +42,8 @@ require(["types/Double"], function() {
 			window.WebIDL.Double('	123,123  ');
 		}, TypeError, 'comma cuases NaN, so throws');
 	});
-	assertion = "Return the IDL double value that has the same numeric value as x.";
-	QUnit.test(assertion, function() {
+	requirement = "Return the IDL double value that has the same numeric value as x.";
+	QUnit.test(requirement, function() {
 		QUnit.strictEqual(window.WebIDL.Double(42), 42, 'valid input does not throw');
 	});
 });
