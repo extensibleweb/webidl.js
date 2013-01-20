@@ -102,10 +102,10 @@ require(["types/UnsignedShort"], function() {
     });
     requirement = "Let int16bit be posInt modulo 216; that is, a finite integer value k of Number type with positive sign and less than 216 in magnitude such that the mathematical difference of int and k is mathematically an integer multiple of 216.";
     QUnit.test(requirement, function() {
-        QUnit.strictEqual(window.WebIDL.UnsignedShort(65536), 0, 'modulo of 65535 value is 0');
-        QUnit.strictEqual(window.WebIDL.UnsignedShort(131072), 0, 'modulo of 131072 value is 0');
-        QUnit.strictEqual(window.WebIDL.UnsignedShort(-1), 65535, 'modulo of -1 value is 255');
-        QUnit.strictEqual(window.WebIDL.UnsignedShort(-2), 65534, 'modulo of -1 value is 254');
+        QUnit.strictEqual(window.WebIDL.UnsignedShort(131072), 0, 'modulo of 131072 (65535 x 2) value is 0');
+        QUnit.strictEqual(window.WebIDL.UnsignedShort(65536), 0, 'modulo of 65536 value is 0');
+        QUnit.strictEqual(window.WebIDL.UnsignedShort(-1), 65535, 'modulo of -1 value is 65535');
+        QUnit.strictEqual(window.WebIDL.UnsignedShort(-2), 65534, 'modulo of -1 value is 65534');
     });
 
     requirement = "Return the IDL unsigned short value that represents the same numeric value as x.";
