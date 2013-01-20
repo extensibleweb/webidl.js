@@ -89,12 +89,17 @@ car.drive("100");
 ```
 
 # Contributing
-We welcome code contributions in the form of [pull requests](https://help.github.com/articles/using-pull-requests). All pull requests are reviewed prior to being integrated. 
+We welcome code contributions in the form of [pull requests](https://help.github.com/articles/using-pull-requests). 
+All pull requests are reviewed prior to being integrated.
+
+To retain a high level of quality, we require that all contributed code include appropriate unit tests, documentation, and the code has been [linted](http://www.jshint.com/).
  
 ## Coding conventions
-We attempt to adhere to the [Google JavaScript Style Guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml).
+We attempt to adhere to the [Google JavaScript Style Guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml). 
 
-Before submitting code, please be sure to run closure-linter and beautify your code with something like [jsbeautifier.org](http://jsbeautifier.org). 
+We are also moving to us [JSDoc](http://code.google.com/p/jsdoc-toolkit/) to document out code. 
+
+Before submitting code, please be sure to [grunt](http://gruntjs.com/). 
 
 ## License
 Copyright (C) 2013 [Extensible Web Community Group](http://www.w3.org/community/nextweb/)
