@@ -57,6 +57,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jshint', 'jsbeautifier', 'test', 'uglify']);
+  grunt.registerTask('default', ['jsbeautifier','jshint', 'test', 'uglify']);
 
 };
