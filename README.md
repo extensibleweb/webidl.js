@@ -4,31 +4,30 @@ An implementation of [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) in [ECMAScr
 
 ## Goals and Scope
 
-The initial goal of this project is to implement a polyfill code generator based on the [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) specification in [ECMAScript](http://es5.github.com/) (i.e., implement the [WebIDL ECMAScript bindings](http://dev.w3.org/2006/webapi/WebIDL/#ecmascript-binding)). 
+The initial goal of this project is to implement a "prollyfill" code generator based on the [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) specification in [ECMAScript](http://es5.github.com/) (i.e., implement the [WebIDL ECMAScript bindings](http://dev.w3.org/2006/webapi/WebIDL/#ecmascript-binding)). 
 
-For the first version, webidl.js will take as input well-formed Web IDL and give the developer the ability to generate some JavaScript source code that: 
+For the first version, webidl.js will take as input well-formed Web IDL and generate JavaScript code that: 
 
-  1.  implement properly the given WebIDL interfaces following the ECMAScript binding rules
-  2.  can be eval'ed immediately to implement a noop object based on the interface
-  3.  can be used indepedently of webidl.js (and any library)
+  1.  Implements the given WebIDL in conformance to WebIDL's [WebIDL ECMAScript bindings](http://dev.w3.org/2006/webapi/WebIDL/#ecmascript-binding).
+  2.  can be eval'ed immediately to implement a noop object.
+  3.  can be used indepedently of webidl.js. 
 
-The generated code will not depend on any libraries. 
+The generated code will not depend on any external libraries. 
 
 #Proposed Architecture (in WebIDL)
-
 WebIDLCompiler will be based on Robin Berjon's [WebIDL Parser](https://github.com/darobin/webidl2.js), 
 
 ```
-interface WebIDLCompiler : WebIDL2{
+interface WebIDLCompiler : WebIDL{
       DOMString compile(DOMString dataFragment);
 	  DOMString compile(object dataTree);
 }
 
-interface WebIDL2{
+interface WebIDL{
   object parse(); 
 }
 ```
-Where ```WebIDL2``` is [https://github.com/darobin/webidl2.js](https://github.com/darobin/webidl2.js)
+Where ```WebIDL``` is and instance of [https://github.com/darobin/webidl2.js](https://github.com/darobin/webidl2.js)
 
 ##Examples of what we want to do
 (The following examples are hypothetical, as we don't actually have any running code yet! :) )
@@ -37,14 +36,14 @@ Given some WebIDL, like:
 
 ```JavaScript
 interface Vehicle {
-	void move();
+    attribute DOMString make;
+    attribute DOMString model;
+    void move();
 }
 
 [Constructor, Constructor(DOMString make, optional DOMString model)]
 interface Car : Vehicle {
      const octet maxspeed = 200;
-     attribute DOMString make;
-     attribute DOMString model;
      void drive([Clamp] octet speed);
 };
 ```
@@ -77,12 +76,18 @@ car.drive();
 window.Car.prototype.drive.call(car)
 
 // methods can't be called on other objects (throws a type error)
-try{ window.Car.prototype.drive.call({}); }
-catch(e){} 
+try{ 
+    window.Car.prototype.drive.call({}); 
+}catch(e){
+  console.log(e);
+} 
 
 // type checking is built-in (throws a type error)
-try{ car.drive({}); }
-catch(e){}
+try{ 
+  car.drive({});
+}catch(e){
+  console.log(e);
+} 
 
 // type conversion is also buit-in
 car.drive("100"); 
@@ -92,14 +97,19 @@ car.drive("100");
 We welcome code contributions in the form of [pull requests](https://help.github.com/articles/using-pull-requests). 
 All pull requests are reviewed prior to being integrated.
 
-To retain a high level of quality, we require that all contributed code include appropriate unit tests, documentation, and the code has been [linted](http://www.jshint.com/).
+To retain a high level of quality, we require that all contributed code include:
+ * appropriate unit tests, 
+ * documentation, 
+ * and the code has been [linted](http://www.jshint.com/).
+  
+Linting, beautificaiton, and generation of documentation is handled by [grunt](http://gruntjs.com/)..
  
 ## Coding conventions
 We attempt to adhere to the [Google JavaScript Style Guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml). 
 
 We are also moving to us [JSDoc](http://code.google.com/p/jsdoc-toolkit/) to document out code. 
 
-Before submitting code, please be sure to [grunt](http://gruntjs.com/). 
+Before submitting code, please be sure to run [grunt](http://gruntjs.com/).
 
 ## License
 Copyright (C) 2013 [Extensible Web Community Group](http://www.w3.org/community/nextweb/)
