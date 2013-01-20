@@ -26,7 +26,7 @@ require(["types/UnsignedLong"], function() {
     requirement = "Initialize x to ToNumber(V).";
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(), 0, 'undefined is 0');
-        QUnit.strictEqual(window.WebIDL.UnsignedLong(undefined), 0, 'undefined is 0');        
+        QUnit.strictEqual(window.WebIDL.UnsignedLong(undefined), 0, 'undefined is 0');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(null), 0, 'null is 0');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(''), 0, 'empty string  is 0');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(0), 0, 'number 0 is 0');
@@ -107,8 +107,8 @@ require(["types/UnsignedLong"], function() {
 
     requirement = "Let int32bit be posInt modulo 2^32; that is, a finite integer value k of Number type with positive sign and less than 216 in magnitude such that the mathematical difference of int and k is mathematically an integer multiple of 2^32.";
     QUnit.test(requirement, function() {
-        QUnit.strictEqual(window.WebIDL.UnsignedLong(Math.pow(2,32)), 0, 'modulo of 65536 value is 0');
-        QUnit.strictEqual(window.WebIDL.UnsignedLong(Math.pow(2,32) * 2), 0, 'modulo of 8589934592 value is 0');
+        QUnit.strictEqual(window.WebIDL.UnsignedLong(Math.pow(2, 32)), 0, 'modulo of 65536 value is 0');
+        QUnit.strictEqual(window.WebIDL.UnsignedLong(Math.pow(2, 32) * 2), 0, 'modulo of 8589934592 value is 0');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(-1), 4294967295, 'modulo of -1 value is 4294967295');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(-2), 4294967294, 'modulo of -1 value is 4294967294');
     });
