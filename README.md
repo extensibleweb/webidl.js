@@ -112,7 +112,7 @@ We are also moving to us [JSDoc](http://code.google.com/p/jsdoc-toolkit/) to doc
 Before submitting code, please be sure to run [grunt](http://gruntjs.com/).
 
 ## License
-Copyright (C) 2013 [Extensible Web Community Group](http://www.w3.org/community/nextweb/)
+Copyright © 2013 [Extensible Web Community Group](http://www.w3.org/community/nextweb/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
