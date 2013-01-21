@@ -46,13 +46,13 @@ require(["types/Short"], function() {
 	QUnit.test(requirement, function() {
 		QUnit.throws(function() {
 			window.WebIDL.Short(NaN, 'EnforceRange');
-		}, TypeError, 'NaN throwns');
+		}, TypeError, 'NaN throws');
 		QUnit.throws(function() {
 			window.WebIDL.Short(+Infinity, 'EnforceRange');
-		}, TypeError, '+Infinity throwns');
+		}, TypeError, '+Infinity throws');
 		QUnit.throws(function() {
 			window.WebIDL.Short(-Infinity, 'EnforceRange');
-		}, TypeError, '-Infinity throwns');
+		}, TypeError, '-Infinity throws');
 	});
 
 	requirement = "[EnforceRange] If x < −215 or x > 215 − 1, then throw a TypeError.";
