@@ -19,12 +19,12 @@ WebIDLCompiler will be based on Robin Berjon's [WebIDL Parser](https://github.co
 
 ```
 interface WebIDLCompiler : WebIDL{
-    DOMString compile(DOMString dataFragment);
-    DOMString compile(object dataTree);
+    static DOMString compile(DOMString dataFragment);
+    static DOMString compile(object dataTree);
 }
 
 interface WebIDL{
-    object parse(); 
+    static object parse(); 
 }
 ```
 Where ```WebIDL``` is and instance of [https://github.com/darobin/webidl2.js](https://github.com/darobin/webidl2.js)
