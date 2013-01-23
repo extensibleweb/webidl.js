@@ -66,5 +66,5 @@ require(['types/UnrestrictedFloat'], function() {
     requirement = "Return y.";
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(42), 42, 'valid input does not throw');
-    })
+    });
 });
