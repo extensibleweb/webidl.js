@@ -23,7 +23,7 @@ module.exports = function (grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      all: ['lib/**/*.js']
+      all: ['lib/**/*.js', 'test/*-tests.js']
     },
 
     qunit: {
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
     },
 
     jsbeautifier : {
-      files : ["lib/**/*.js"]
+      files : ["lib/**/*.js", 'test/*-tests.js']
     }
 
   });
@@ -57,6 +57,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jshint', 'jsbeautifier', 'test', 'uglify']);
+  grunt.registerTask('default', ['jsbeautifier','jshint', 'test', 'uglify']);
 
 };
