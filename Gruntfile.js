@@ -12,13 +12,8 @@ module.exports = function (grunt) {
       dist: {
         src: [
           'lib/webidl.js', 
-          'lib/interfaces/WebIDL.js', 
-          'lib/types/Boolean.js', 
-          'lib/types/Date.js',
-          'lib/types/DOMString.js',
-          'lib/types/Double.js',
-          'lib/types/IDLType.js',
-          'lib/types/Octet.js'
+          'lib/interfaces/*.js', 
+          'lib/types/*.js'
         ],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
       }
@@ -28,7 +23,7 @@ module.exports = function (grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      all: ['lib/**/*.js']
+      all: ['lib/**/*.js', 'test/*-tests.js']
     },
 
     qunit: {
@@ -47,6 +42,10 @@ module.exports = function (grunt) {
         port: 8000,
         base: "."
       }
+    },
+
+    jsbeautifier : {
+      files : ["lib/**/*.js", 'test/*-tests.js']
     }
 
   });
@@ -55,8 +54,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-qunit");
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jshint', 'test', 'uglify']);
+  grunt.registerTask('default', ['jsbeautifier','jshint', 'test', 'uglify']);
 
 };
