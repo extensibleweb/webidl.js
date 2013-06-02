@@ -3,7 +3,7 @@
  * The byte type is a signed integer type that has values in the range [−128, 127].
  * http://dev.w3.org/2006/webapi/WebIDL/#es-byte
  **/
-require(["types/Byte"], function() {
+require(['WebIDL/types/Byte'], function() {
     'use strict';
 
     var requirement, QUnit = window.QUnit;
@@ -81,7 +81,7 @@ require(["types/Byte"], function() {
         QUnit.strictEqual(window.WebIDL.Byte(4.5, 'Clamp'), 4, '4.5 rounds to 4');
     });
 
-    requirement = "[Clamp] choosing +0 rather than −0.";
+    requirement = '[Clamp] choosing +0 rather than −0.';
     QUnit.test(requirement, function() {
         var value = window.WebIDL.Byte(-0.5, 'Clamp');
         QUnit.strictEqual(isNegative0(value), false, '-0.5 rounds to +0');

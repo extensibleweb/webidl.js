@@ -1,9 +1,9 @@
-require(["types/Object"], function() {
+require(['WebIDL/types/Object'], function() {
     'use strict';
     var requirement, QUnit = window.QUnit,
         WebIDL = window.WebIDL;
 
-    module("WebIDL Object");
+    module('WebIDL Object');
 
     QUnit.module('WebIDL Object', {
         setup: function() {},
