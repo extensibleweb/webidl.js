@@ -46,10 +46,20 @@ module.exports = function(grunt) {
 
     jsbeautifier: {
       files: ['lib/**/*.js', 'test/*-tests.js']
+    },
+
+    jsdoc : {
+        dist : {
+            src: ['lib/**/*.js', 'test/*.js'], 
+            options: {
+                destination: 'doc'
+            }
+        }
     }
 
   });
 
+  grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -57,6 +67,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jsbeautifier', 'jshint', 'test', 'uglify']);
+  grunt.registerTask('default', ['jsbeautifier', 'jshint', 'test', 'uglify', 'jsdoc']);
 
 };

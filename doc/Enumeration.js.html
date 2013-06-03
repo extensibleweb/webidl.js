@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Enumeration.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Enumeration.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * @module WebIDL/Enumeration
+ * @exports WebIDL.Enumeration
+ */
+define(function(require) {
+    'use strict';
+    var WebIDL = require('WebIDL'),
+        IDLType = require('WebIDL/types/IDLType');
+
+    /**
+     * An identifier that identifies an enumeration is used to refer to a
+     * type whose values are the set of strings (sequences of code units,
+     * as with DOMString) that are the enumeration’s values.
+     *
+     * @class
+     * @extends IDLType
+     *
+     * @param identifier {String} - the name of the emum, serves as the type.
+     * @param enums {String[]} - a list of possible values
+     * @param value {String} - optional, a value to check.
+     */
+    WebIDL.Enumeration = function(identifier, enums, value) {
+        if (!(this instanceof WebIDL.Enumeration)) {
+            return converterValue(value, enums);
+        }
+        if (!(enums instanceof Array)) {
+            throw new TypeError('enums must be an array');
+        }
+        //type check each of the enums
+        for (var i = enums.length - 1; i >= 0; i--) {
+            if (typeof enums[i] !== 'string') {
+                throw new TypeError('Enumeration types must be a string');
+            }
+        }
+        IDLType.call(this, identifier, converter, enums);
+    };
+    WebIDL.Enumeration.prototype = IDLType;
+
+    /**
+     * Checks to see if an enum has a value.
+     * @param {String} value - the value to check against the enum values.
+     */
+    WebIDL.Enumeration.prototype.has = function(value) {
+        try {
+            converterValue(value, this.value);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    };
+
+    function converter(enums) {
+        return enums.slice();
+    }
+
+    /**
+     * The result of converting an IDL enumeration type value to an ECMAScript
+     * value is the String value that represents the same sequence of code units
+     * as the enumeration value.
+     * @param {any} V - the value to verify.
+     * @param {String[]} enumValues - the enum to check against.
+     */
+    function converterValue(V, enumValues) {
+        //Let S be the result of calling ToString(V).
+        var S = String(V);
+        //If S is not one of E’s enumeration values, then throw a TypeError.
+        //Return the enumeration value of type E that is equal to S.
+        for (var i = enumValues.length - 1, E; i >= 0; i--) {
+            E = enumValues[i];
+            if (E === S) {
+                return E;
+            }
+        }
+        throw new TypeError();
+    }
+    return WebIDL.Enumeration;
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="Any.html">WebIDL/Any</a></li><li><a href="Boolean.html">WebIDL/Boolean</a></li><li><a href="Byte.html">WebIDL/Byte</a></li><li><a href="ByteString.html">WebIDL/ByteString</a></li><li><a href="CallbackFunction.html">WebIDL/CallbackFunction</a></li><li><a href="Date.html">WebIDL/Date</a></li><li><a href="DOMString.html">WebIDL/DOMString</a></li><li><a href="Double.html">WebIDL/Double</a></li><li><a href="Enumeration.html">WebIDL/Enumeration</a></li><li><a href="Float.html">WebIDL/Float</a></li><li><a href="IDLType.html">WebIDL/IDLType</a></li><li><a href="Long.html">WebIDL/Long</a></li><li><a href="LongLong.html">WebIDL/LongLong</a></li><li><a href="Object.html">WebIDL/Object</a></li><li><a href="Octet.html">WebIDL/Octet</a></li><li><a href="RegExp.html">WebIDL/RegExp</a></li><li><a href="Short.html">WebIDL/Short</a></li><li><a href="UnrestrictedDouble.html">WebIDL/UnrestrictedDouble</a></li><li><a href="UnrestrictedFloat.html">WebIDL/UnrestrictedFloat</a></li><li><a href="UnsignedLong.html">WebIDL/UnsignedLong</a></li><li><a href="UnsignedShort.html">WebIDL/UnsignedShort</a></li></ul><h3>Classes</h3><ul><li><a href="Any-WebIDL.Any.html">Any</a></li><li><a href="Boolean-WebIDL.Boolean.html">Boolean</a></li><li><a href="ByteString-WebIDL.ByteString.html">ByteString</a></li><li><a href="CallbackFunction-WebIDL.CallbackFunction.html">CallbackFunction</a></li><li><a href="Date-WebIDL.Date.html">Date</a></li><li><a href="DOMString-WebIDL.DOMString.html">DOMString</a></li><li><a href="Double-WebIDL.Double.html">Double</a></li><li><a href="Enumeration-WebIDL.Enumeration.html">Enumeration</a></li><li><a href="Float-WebIDL.Float.html">Float</a></li><li><a href="LongLong-WebIDL.LongLong.html">LongLong</a></li><li><a href="Long-WebIDL.Long.html">Long</a></li><li><a href="Object-WebIDL.Object.html">Object</a></li><li><a href="Octet-WebIDL.Octet.html">Octet</a></li><li><a href="RegExp-WebIDL.RegExp.html">RegExp</a></li><li><a href="Short-WebIDL.Short.html">Short</a></li><li><a href="UnrestrictedDouble-WebIDL.UnrestrictedDouble.html">UnrestrictedDouble</a></li><li><a href="UnrestrictedFloat-WebIDL.UnrestrictedFloat.html">UnrestrictedFloat</a></li><li><a href="UnsignedShort-WebIDL.UnsignedShort.html">UnsignedShort</a></li><li><a href="WebIDL.Byte.html">Byte</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Mon Jun 03 2013 09:22:36 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>

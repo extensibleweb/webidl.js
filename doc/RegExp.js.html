@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: RegExp.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: RegExp.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * @module WebIDL/RegExp
+ * @exports WebIDL.RegExp
+ */
+define(function(require) {
+    'use strict';
+    var IDLType = require('WebIDL/types/IDLType'),
+        WebIDL = require('WebIDL');
+    /**
+     * The RegExp type is a type whose values are references to objects that
+     * represent regular expressions. The particular regular expression
+     * language and the features it supports is language binding specific.
+     * @class
+     * @extends IDLType
+     * @param {RegExp} value - The value of this object.
+     */
+    WebIDL.RegExp = function(value) {
+        var type = 'RegExp';
+        if (!(this instanceof WebIDL.RegExp)) {
+            return converter(value);
+        }
+        IDLType.call(this, type, converter, value);
+    };
+    WebIDL.RegExp.prototype = IDLType;
+
+    /**
+     * The result of converting an IDL RegExp value to an ECMAScript value is the
+     * RegExp value that represents a reference to the same object that
+     * the IDL RegExp represents.
+     * IDL RegExp values are represented by ECMAScript RegExp objects.
+     * @param {any} V - the value to convert.
+     */
+    function converter(V) {
+        var nativeBrand = Object.prototype.toString.apply(V),
+            regex;
+
+        //http://es5.github.com/#Type
+        function es5Type(x) {
+            //correct for null being returned as "Object"
+            var type = (x === null) ? 'null' : typeof x;
+            if (type === 'function') {
+                //correct for function being an Object
+                type = 'Object';
+            } else {
+                //uppercase first letter
+                type = type.charAt(0).toUpperCase() + type.slice(1);
+            }
+            return type;
+        }
+
+        //If Type(V) is not Object, or the value of the internal [[NativeBrand]]
+        //property of V is not “RegExp”,
+        if (es5Type(V) !== 'Object' || nativeBrand !== '[object RegExp]') {
+            //then set V to be a newly created RegExp
+            //object created as if by the expression new RegExp(V),
+            //where RegExp is the standard built-in constructor with that name.
+            V = new RegExp(V);
+        }
+        //Return the IDL RegExp value that is a reference to the same object as V.
+        return V;
+    }
+    return WebIDL.RegExp;
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="Any.html">WebIDL/Any</a></li><li><a href="Boolean.html">WebIDL/Boolean</a></li><li><a href="Byte.html">WebIDL/Byte</a></li><li><a href="ByteString.html">WebIDL/ByteString</a></li><li><a href="CallbackFunction.html">WebIDL/CallbackFunction</a></li><li><a href="Date.html">WebIDL/Date</a></li><li><a href="DOMString.html">WebIDL/DOMString</a></li><li><a href="Double.html">WebIDL/Double</a></li><li><a href="Enumeration.html">WebIDL/Enumeration</a></li><li><a href="Float.html">WebIDL/Float</a></li><li><a href="IDLType.html">WebIDL/IDLType</a></li><li><a href="Long.html">WebIDL/Long</a></li><li><a href="LongLong.html">WebIDL/LongLong</a></li><li><a href="Object.html">WebIDL/Object</a></li><li><a href="Octet.html">WebIDL/Octet</a></li><li><a href="RegExp.html">WebIDL/RegExp</a></li><li><a href="Short.html">WebIDL/Short</a></li><li><a href="UnrestrictedDouble.html">WebIDL/UnrestrictedDouble</a></li><li><a href="UnrestrictedFloat.html">WebIDL/UnrestrictedFloat</a></li><li><a href="UnsignedLong.html">WebIDL/UnsignedLong</a></li><li><a href="UnsignedShort.html">WebIDL/UnsignedShort</a></li></ul><h3>Classes</h3><ul><li><a href="Any-WebIDL.Any.html">Any</a></li><li><a href="Boolean-WebIDL.Boolean.html">Boolean</a></li><li><a href="ByteString-WebIDL.ByteString.html">ByteString</a></li><li><a href="CallbackFunction-WebIDL.CallbackFunction.html">CallbackFunction</a></li><li><a href="Date-WebIDL.Date.html">Date</a></li><li><a href="DOMString-WebIDL.DOMString.html">DOMString</a></li><li><a href="Double-WebIDL.Double.html">Double</a></li><li><a href="Enumeration-WebIDL.Enumeration.html">Enumeration</a></li><li><a href="Float-WebIDL.Float.html">Float</a></li><li><a href="LongLong-WebIDL.LongLong.html">LongLong</a></li><li><a href="Long-WebIDL.Long.html">Long</a></li><li><a href="Object-WebIDL.Object.html">Object</a></li><li><a href="Octet-WebIDL.Octet.html">Octet</a></li><li><a href="RegExp-WebIDL.RegExp.html">RegExp</a></li><li><a href="Short-WebIDL.Short.html">Short</a></li><li><a href="UnrestrictedDouble-WebIDL.UnrestrictedDouble.html">UnrestrictedDouble</a></li><li><a href="UnrestrictedFloat-WebIDL.UnrestrictedFloat.html">UnrestrictedFloat</a></li><li><a href="UnsignedShort-WebIDL.UnsignedShort.html">UnsignedShort</a></li><li><a href="WebIDL.Byte.html">Byte</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Mon Jun 03 2013 09:22:36 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>
