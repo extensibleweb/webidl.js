@@ -8,7 +8,7 @@ require(['WebIDL/types/Boolean'], function() {
 
     QUnit.module('WebIDL Boolean', {
         setup: function() {},
-        
+
         teardown: function() {}
     });
 

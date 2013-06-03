@@ -9,7 +9,7 @@ require(['WebIDL/types/Enumeration'], function() {
 
     requirement = 'Let S be the result of calling ToString(V).';
     QUnit.test(requirement, function() {
-        var enums = ['bar', 'test', 'baz', '1', 'true', 'false', 'Infinity', '-Infinity', 'null', 'undefined'],
+        var enums = ['', 'bar', 'test', 'baz', '1', 'true', 'false', 'Infinity', '-Infinity', 'null', 'undefined'],
             obj = {
                 toString: function() {
                     return 'test';
