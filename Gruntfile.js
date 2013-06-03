@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
     jsbeautifier: {
       files: ['lib/**/*.js', 'test/*-tests.js']
-    }
+    },
 
     jsdoc : {
         dist : {
