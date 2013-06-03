@@ -1,7 +1,7 @@
 /**
  * The octet type is an unsigned integer type that has values in the range [0, 255].
  **/
-require(['types/Octet'], function() {
+require(['WebIDL/types/Octet'], function() {
     'use strict';
 
     var requirement, QUnit = window.QUnit;
