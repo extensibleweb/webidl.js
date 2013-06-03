@@ -1,4 +1,4 @@
-require(['types/UnrestrictedFloat'], function() {
+require(['WebIDL/types/UnrestrictedFloat'], function() {
     'use strict';
 
     var requirement, QUnit = window.QUnit;
@@ -36,7 +36,7 @@ require(['types/UnrestrictedFloat'], function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat('	123  '), 123, 'Whitespace removed is 123');
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat('	-123.123  '), - 123.12300109863281, 'Converted to nearest float');
     });
-    requirement = "If x is NaN, then return the IDL unrestricted float value that represents the IEEE 754 NaN value with the bit pattern 0x7fc00000 [IEEE-754].";
+    requirement = 'If x is NaN, then return the IDL unrestricted float value that represents the IEEE 754 NaN value with the bit pattern 0x7fc00000 [IEEE-754].';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(), 0x7fc00000, 'ToNumber() is NaN so 0x7fc00000');
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(undefined), 0x7fc00000, 'ToNumber(undefined) is NaN so 0x7fc00000');
@@ -48,22 +48,22 @@ require(['types/UnrestrictedFloat'], function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(0.2), 0.20000000298023224);
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(3.141592653589793), 3.1415927410125732);
     });
-    requirement = "If y is 2^128, return +∞.";
+    requirement = 'If y is 2^128, return +∞.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(Math.pow(2, 128)), + Infinity, '2^128 is +Infinity');
     });
-    requirement = "If y is −2^128, return −∞.";
+    requirement = 'If y is −2^128, return −∞.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(-Math.pow(2, 128)), - Infinity, '-2^128 is -Infinity');
     });
-    requirement = "If y is +0 and x is negative, return −0.";
+    requirement = 'If y is +0 and x is negative, return −0.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(isNegative0(window.WebIDL.UnrestrictedFloat(-8e-47)), true);
         QUnit.strictEqual(isNegative0(window.WebIDL.UnrestrictedFloat(8e-47)), false);
         QUnit.strictEqual(isNegative0(window.WebIDL.UnrestrictedFloat(-0.0)), true);
         QUnit.strictEqual(isNegative0(window.WebIDL.UnrestrictedFloat(0.0)), false);
     });
-    requirement = "Return y.";
+    requirement = 'Return y.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnrestrictedFloat(42), 42, 'valid input does not throw');
     });
