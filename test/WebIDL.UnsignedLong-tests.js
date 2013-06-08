@@ -1,4 +1,4 @@
-require(["types/UnsignedLong"], function() {
+require(['WebIDL/types/UnsignedLong'], function() {
     'use strict';
 
     var requirement, QUnit = window.QUnit;
@@ -23,7 +23,7 @@ require(["types/UnsignedLong"], function() {
         teardown: function() {}
     });
 
-    requirement = "Initialize x to ToNumber(V).";
+    requirement = 'Initialize x to ToNumber(V).';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(), 0, 'undefined is 0');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(undefined), 0, 'undefined is 0');
@@ -39,7 +39,7 @@ require(["types/UnsignedLong"], function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong('	-123.123  '), 4294967173, 'everything after "." gets dropped, modulo applied');
     });
 
-    requirement = "[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.";
+    requirement = '[EnforceRange] If x is NaN, +∞, or −∞, then throw a TypeError.';
     QUnit.test(requirement, function() {
         QUnit.throws(function() {
             window.WebIDL.UnsignedLong(NaN, 'EnforceRange');
@@ -52,7 +52,7 @@ require(["types/UnsignedLong"], function() {
         }, TypeError, '-Infinity throwns');
     });
 
-    requirement = "[EnforceRange] If x < 0 or x > 2^32 − 1, then throw a TypeError.";
+    requirement = '[EnforceRange] If x < 0 or x > 2^32 − 1, then throw a TypeError.';
     QUnit.test(requirement, function() {
         QUnit.throws(function() {
             window.WebIDL.UnsignedLong(-1, 'EnforceRange');
@@ -62,18 +62,18 @@ require(["types/UnsignedLong"], function() {
         }, TypeError, 'Range must be enforced');
     });
 
-    requirement = "[EnforceRange] Return the IDL unsigned long value that represents the same numeric value as x.";
+    requirement = '[EnforceRange] Return the IDL unsigned long value that represents the same numeric value as x.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(42, 'EnforceRange'), 42, 'valid input does not throw');
     });
 
-    requirement = "[Clamp] Set x to min(max(x, 0), 2^32 − 1).";
+    requirement = '[Clamp] Set x to min(max(x, 0), 2^32 − 1).';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(4294967296, 'Clamp'), 4294967295, '4294967296 Clamped to 4294967295');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(-4294967295, 'Clamp'), 0, '-4294967295 Clamped to 0');
     });
 
-    requirement = "[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two";
+    requirement = '[Clamp] Round x to the nearest integer, choosing the even integer if it lies halfway between two';
     QUnit.test(requirement, function() {
         var zero = window.WebIDL.UnsignedLong(-0.5, 'Clamp');
         QUnit.strictEqual(isNegative0(0), false, '-0.5 rounds to +0');
@@ -82,18 +82,18 @@ require(["types/UnsignedLong"], function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(4.5, 'Clamp'), 4, '4.5 rounds to 4');
     });
 
-    requirement = "[Clamp] choosing +0 rather than −0.";
+    requirement = '[Clamp] choosing +0 rather than −0.';
     QUnit.test(requirement, function() {
         var value = window.WebIDL.UnsignedLong(-0.5, 'Clamp');
         QUnit.strictEqual(isNegative0(value), false, '-0.5 rounds to +0');
     });
 
-    requirement = "[Clamp] Return the IDL unsigned long value that represents the same numeric value as x.";
+    requirement = '[Clamp] Return the IDL unsigned long value that represents the same numeric value as x.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(42, 'Clamp'), 42, 'valid input does not throw');
     });
 
-    requirement = "Set x to ToUint32(x) -> If number is NaN, +0, −0, +∞, or −∞, return +0.";
+    requirement = 'Set x to ToUint32(x) -> If number is NaN, +0, −0, +∞, or −∞, return +0.';
     QUnit.test(requirement, function() {
         var zero = window.WebIDL.UnsignedLong(-0);
         QUnit.strictEqual(isNegative0(zero), false, '-0, so 0');
@@ -105,7 +105,7 @@ require(["types/UnsignedLong"], function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(-Infinity), 0, 'Object is NaN, so 0');
     });
 
-    requirement = "Let int32bit be posInt modulo 2^32; that is, a finite integer value k of Number type with positive sign and less than 216 in magnitude such that the mathematical difference of int and k is mathematically an integer multiple of 2^32.";
+    requirement = 'Let int32bit be posInt modulo 2^32; that is, a finite integer value k of Number type with positive sign and less than 216 in magnitude such that the mathematical difference of int and k is mathematically an integer multiple of 2^32.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(Math.pow(2, 32)), 0, 'modulo of 65536 value is 0');
         QUnit.strictEqual(window.WebIDL.UnsignedLong(Math.pow(2, 32) * 2), 0, 'modulo of 8589934592 value is 0');
@@ -113,7 +113,7 @@ require(["types/UnsignedLong"], function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(-2), 4294967294, 'modulo of -1 value is 4294967294');
     });
 
-    requirement = "Return the IDL unsigned long value that represents the same numeric value as x.";
+    requirement = 'Return the IDL unsigned long value that represents the same numeric value as x.';
     QUnit.test(requirement, function() {
         QUnit.strictEqual(window.WebIDL.UnsignedLong(4294967291), 4294967291, 'valid input does not throw');
     });

@@ -8,6 +8,7 @@
     "grunt-contrib-connect": "~0.1.0",
     "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-uglify": "~0.1.0",
-    "grunt-jsbeautifier": "~0.1.2"
+    "grunt-jsbeautifier": "~0.1.2",
+    "grunt-jsdoc": "~0.3.3"
   }
 }
