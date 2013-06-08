@@ -11,9 +11,8 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          'lib/webidl.js',
-          'lib/interfaces/*.js',
-          'lib/types/*.js'
+          'lib/*.js',
+          'lib/**/*.js'
         ],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
       }
