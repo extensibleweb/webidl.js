@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Octet.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Octet.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * @module WebIDL/Octet
+ * @exports WebIDL.Octet
+ */
+define(function(require) {
+    'use strict';
+    var IDLType = require('WebIDL/types/IDLType'),
+        WebIDL = require('WebIDL');
+
+    /**
+     * The octet type is an unsigned integer type that has values in the
+     * range [0, 255].
+     * octet constant values in IDL are represented with integer tokens.
+     * @class
+     * @extends IDLType
+     * @param {Number} value - the value of this object.
+     * @param {String} extendedAttr - Extended Attribute.
+     */
+    WebIDL.Octet = function(value, extendedAttr) {
+        var type = 'Octet';
+        if (!(this instanceof WebIDL.Octet)) {
+            return converter(value, extendedAttr);
+        }
+        IDLType.call(this, type, converter, value, extendedAttr);
+    };
+    WebIDL.Octet.prototype = IDLType;
+    /**
+     * The result of converting an IDL octet value to an ECMAScript value
+     * is a Number that represents
+     * the same numeric value as the IDL octet value. The Number value will
+     * be an integer in the range [0, 255].
+     * @param {any} V - the value to convert.
+     */
+    function converter(V, extendedAttr) {
+        //Initialize x to ToNumber(V).
+        var x = Number(V),
+            n;
+
+        function isNegative0(x) {
+            if (x !== 0) return false;
+            var obj = Object.freeze({
+                z: -0
+            });
+            try {
+                Object.defineProperty(obj, 'z', {
+                    value: x
+                });
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+
+        //If the conversion to an IDL value is being performed due to any of the following:
+        if (extendedAttr === 'EnforceRange') {
+            //V is being assigned to an attribute annotated with the [EnforceRange] extended attribute,
+            //V is being passed as an operation argument annotated with the [EnforceRange] extended attribute, or
+            //V is being used as the value of dictionary member annotated with the [EnforceRange] extended attribute,
+            //then:
+            //If x is NaN, +∞, or −∞, then throw a TypeError.
+            if (isNaN(x) || x === +Infinity || x === -Infinity) {
+                throw new TypeError();
+            }
+            //Set x to sign(x) * floor(abs(x)).
+            x = ((x > 0) ? 1 : -1) * Math.floor(Math.abs(x));
+
+            //If x &lt; 0 or x > 28 − 1, then throw a TypeError.
+            if (x &lt; 0 || x > (Math.pow(2, 8) - 1)) {
+                throw new TypeError();
+            }
+            //Return the IDL octet value that represents the same numeric value as x.
+            return x;
+        }
+        //If x is not NaN and the conversion to an IDL value is being performed due to any of the following:
+        if (!(isNaN(x)) && extendedAttr === 'Clamp') {
+            //V is being assigned to an attribute annotated with the
+            //[Clamp] extended attribute,
+            //V is being passed as an operation argument annotated
+            //with the [Clamp] extended attribute, or
+            //V is being used as the value of dictionary member
+            //annotated with the [Clamp] extended attribute,
+            //then:
+            //Set x to min(max(x, 0), 28 − 1).
+            x = Math.min(Math.max(x, 0), Math.pow(2, 8) - 1);
+
+            //Round x to the nearest integer, choosing the even integer if it lies halfway between two.
+            x = Math.abs(x - Math.round(x)) === 0.5 ? (((Math.round(x) % 2) === 0) ? Math.round(x) : Math.floor(x)) : Math.round(x);
+            //and choosing +0 rather than −0.
+            x = (x === 0 && isNegative0(x)) ? +0 : x;
+            //Return the IDL octet value that represents the same numeric value as x.
+            return x;
+        }
+
+        //If x is NaN, +0, −0, +∞, or −∞, then return the IDL octet value that represents 0.
+        if (isNaN(x) || x === 0 || x === +Infinity || x === -Infinity) {
+            return 0;
+        }
+        //Set x to sign(x) * floor(abs(x)).
+        x = ((x > 0) ? 1 : -1) * Math.floor(Math.abs(x));
+        //Set x to x modulo 28.
+        n = Math.pow(2, 8);
+        x = ((x % n) + n) % n; //x % Math.pow(2, 8);
+        //Return the IDL octet value that represents the same numeric value as x.
+        return x;
+    }
+    return WebIDL.Octet;
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="Any.html">WebIDL/Any</a></li><li><a href="Boolean.html">WebIDL/Boolean</a></li><li><a href="Byte.html">WebIDL/Byte</a></li><li><a href="ByteString.html">WebIDL/ByteString</a></li><li><a href="CallbackFunction.html">WebIDL/CallbackFunction</a></li><li><a href="Date.html">WebIDL/Date</a></li><li><a href="DOMString.html">WebIDL/DOMString</a></li><li><a href="Double.html">WebIDL/Double</a></li><li><a href="Enumeration.html">WebIDL/Enumeration</a></li><li><a href="Float.html">WebIDL/Float</a></li><li><a href="IDLType.html">WebIDL/IDLType</a></li><li><a href="Long.html">WebIDL/Long</a></li><li><a href="LongLong.html">WebIDL/LongLong</a></li><li><a href="Object.html">WebIDL/Object</a></li><li><a href="Octet.html">WebIDL/Octet</a></li><li><a href="RegExp.html">WebIDL/RegExp</a></li><li><a href="Short.html">WebIDL/Short</a></li><li><a href="UnrestrictedDouble.html">WebIDL/UnrestrictedDouble</a></li><li><a href="UnrestrictedFloat.html">WebIDL/UnrestrictedFloat</a></li><li><a href="UnsignedLong.html">WebIDL/UnsignedLong</a></li><li><a href="UnsignedShort.html">WebIDL/UnsignedShort</a></li></ul><h3>Classes</h3><ul><li><a href="Any-WebIDL.Any.html">Any</a></li><li><a href="Boolean-WebIDL.Boolean.html">Boolean</a></li><li><a href="ByteString-WebIDL.ByteString.html">ByteString</a></li><li><a href="CallbackFunction-WebIDL.CallbackFunction.html">CallbackFunction</a></li><li><a href="Date-WebIDL.Date.html">Date</a></li><li><a href="DOMString-WebIDL.DOMString.html">DOMString</a></li><li><a href="Double-WebIDL.Double.html">Double</a></li><li><a href="Enumeration-WebIDL.Enumeration.html">Enumeration</a></li><li><a href="Float-WebIDL.Float.html">Float</a></li><li><a href="LongLong-WebIDL.LongLong.html">LongLong</a></li><li><a href="Long-WebIDL.Long.html">Long</a></li><li><a href="Object-WebIDL.Object.html">Object</a></li><li><a href="Octet-WebIDL.Octet.html">Octet</a></li><li><a href="RegExp-WebIDL.RegExp.html">RegExp</a></li><li><a href="Short-WebIDL.Short.html">Short</a></li><li><a href="UnrestrictedDouble-WebIDL.UnrestrictedDouble.html">UnrestrictedDouble</a></li><li><a href="UnrestrictedFloat-WebIDL.UnrestrictedFloat.html">UnrestrictedFloat</a></li><li><a href="UnsignedShort-WebIDL.UnsignedShort.html">UnsignedShort</a></li><li><a href="WebIDL.Byte.html">Byte</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Jun 08 2013 14:12:20 GMT+0100 (WEST)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>

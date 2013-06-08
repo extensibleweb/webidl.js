@@ -1,6 +1,6 @@
-require(["types/Boolean"], function() {
+require(['WebIDL/types/Boolean'], function() {
     'use strict';
-    module("WebIDL Boolean");
+    module('WebIDL Boolean');
 
     var requirement,
     QUnit = window.QUnit,
@@ -8,6 +8,7 @@ require(["types/Boolean"], function() {
 
     QUnit.module('WebIDL Boolean', {
         setup: function() {},
+
         teardown: function() {}
     });
 

@@ -1,5 +1,5 @@
-module.exports = function (grunt) {
-  "use strict";
+module.exports = function(grunt) {
+  'use strict';
 
   grunt.initConfig({
 
@@ -11,9 +11,8 @@ module.exports = function (grunt) {
       },
       dist: {
         src: [
-          'lib/webidl.js', 
-          'lib/interfaces/*.js', 
-          'lib/types/*.js'
+          'lib/*.js',
+          'lib/**/*.js'
         ],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
       }
@@ -32,31 +31,41 @@ module.exports = function (grunt) {
       },
       all: {
         options: {
-          urls: ["http://localhost:8000/test/index.html"]
+          urls: ['http://localhost:8000/test/index.html']
         }
       }
     },
-    
+
     connect: {
       server: {
         port: 8000,
-        base: "."
+        base: '.'
       }
     },
 
-    jsbeautifier : {
-      files : ["lib/**/*.js", 'test/*-tests.js']
+    jsbeautifier: {
+      files: ['lib/**/*.js', 'test/*-tests.js']
+    },
+
+    jsdoc : {
+        dist : {
+            src: ['lib/**/*.js', 'test/*.js'], 
+            options: {
+                destination: 'doc'
+            }
+        }
     }
 
   });
 
+  grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks("grunt-contrib-qunit");
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-jsbeautifier');
 
   grunt.registerTask('test', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jsbeautifier','jshint', 'test', 'uglify']);
+  grunt.registerTask('default', ['jsbeautifier', 'jshint', 'test', 'uglify', 'jsdoc']);
 
 };
