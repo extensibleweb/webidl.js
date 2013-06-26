@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 var JSType = (function () {
     function JSType() {
@@ -79,6 +79,114 @@ var JSValue = (function () {
     return JSValue;
 })();
 
+var WebIDL;
+(function (WebIDL) {
+    WebIDL.Converters = {
+        __proto__: null,
+        "any": {
+            canCast: function (v) {
+                return true;
+            },
+            canConvert: function (v) {
+                return true;
+            },
+            cast: function (v) {
+                return v;
+            },
+            convert: function (v) {
+                return v;
+            },
+            unconvert: function (v) {
+                return v;
+            }
+        },
+        "Boolean": {
+            canCast: function (v) {
+                return typeof (v) === "boolean" || v instanceof Boolean;
+            },
+            canConvert: function (v) {
+                return true;
+            },
+            cast: function (v) {
+                if (this.canCast(v)) {
+                    return v;
+                } else {
+                    throw new Error("Invalid cast");
+                }
+            },
+            convert: function (v) {
+                return !!v;
+            },
+            unconvert: function (v) {
+                return this.cast(v);
+            }
+        },
+        "DOMString": {
+            canCast: function (v) {
+                return typeof (v) === "string" || v instanceof String;
+            },
+            canConvert: function (v) {
+                return true;
+            },
+            cast: function (v) {
+                if (this.canCast(v)) {
+                    return v;
+                } else {
+                    throw new Error("Invalid cast");
+                }
+            },
+            convert: function (v) {
+                return "" + v;
+            },
+            unconvert: function (v) {
+                return this.cast(v);
+            }
+        },
+        "ByteString": {
+            canCast: function (v) {
+                return typeof (v) === "string" || v instanceof String;
+            },
+            canConvert: function (v) {
+                return true;
+            },
+            cast: function (v) {
+                if (this.canCast(v)) {
+                    return v;
+                } else {
+                    throw new Error("Invalid cast");
+                }
+            },
+            convert: function (v) {
+                return "" + v;
+            },
+            unconvert: function (v) {
+                return this.cast(v);
+            }
+        },
+        "unrestricted double": {
+            canCast: function (v) {
+                return typeof (v) === "number" || v instanceof Number;
+            },
+            canConvert: function (v) {
+                return true;
+            },
+            cast: function (v) {
+                if (this.canCast(v)) {
+                    return +v;
+                } else {
+                    throw new Error("Invalid cast");
+                }
+            },
+            convert: function (v) {
+                return +v;
+            },
+            unconvert: function (v) {
+                return this.cast(v);
+            }
+        }
+    };
+})(WebIDL || (WebIDL = {}));
+
 var IndentedStringBuilder = (function () {
     function IndentedStringBuilder(code, header) {
         if (typeof code === "undefined") { code = ""; }
@@ -143,12 +251,24 @@ var TypeScriptHelper = (function () {
     TypeScriptHelper.prototype.emitOperation = function (op, opt) {
         var hasBody = (opt && !opt.interface);
         if (hasBody) {
-            var body = "//\n// [...]\n//";
+            var body = "";
+
+            for (var i = 0; i < op.arguments.length; i++) {
+                var a = op.arguments[i];
+                body += "\n" + a.name + " = WebIDL.Converter.FromType('" + a.idlType.idlType + "', " + (0 + a.idlType.array) + ", " + a.idlType.sequence + ").convert(" + a.name + ");";
+            }
+
+            body += "\n//\n// [...]\n//";
+
+            if (op.idlType.idlType !== "new") {
+                body += "\nreturn WebIDL.Converter.FromType('" + op.idlType.idlType + "', " + (0 + op.idlType.array) + ", " + op.idlType.sequence + ").unconvert(null);";
+            }
+
             if (opt.bodyDecorator)
                 body = opt.bodyDecorator(body);
         }
 
-        return ((opt && opt.noName ? "" : op.name) + "(" + this.emitParameters(op.arguments, opt) + ")" + (op.idlType.idlType == "new" ? "" : ": " + JSType.fromIDL(op.idlType)) + (hasBody ? "{\n" + (new IndentedStringBuilder(body, "    ")) + "\n}" : ";"));
+        return ((opt && opt.noName ? "" : op.name) + "(" + this.emitParameters(op.arguments, opt) + ")" + (op.idlType.idlType === "new" ? "" : ": " + JSType.fromIDL(op.idlType)) + (hasBody ? "{" + (new IndentedStringBuilder(body, "    ")) + "\n}" : ";"));
     };
 
     TypeScriptHelper.prototype.emitAttribute = function (att, opt) {
@@ -203,7 +323,7 @@ var TypeScriptHelper = (function () {
                     }, {
                         interface: false,
                         bodyDecorator: function (s) {
-                            return "var self = this/*or reuse existing DOM objects by changing their prototype*/;\n" + s + "\nreturn self;";
+                            return "\nvar self = this/*or reuse existing DOM objects by changing their prototype*/;" + s + "\nreturn self;";
                         }
                     }));
                 }

@@ -30,9 +30,11 @@ class BlurpEvent extends CustomEvent {
     // Implementation of the checkIfOkay method
     //
     checkIfOkay(potentialIssues: string[]= null): bool {
+        potentialIssues = WebIDL.Converter.FromType('DOMString', 1, false).convert(potentialIssues);
         //
         // [...]
         //
+        return WebIDL.Converter.FromType('Boolean', 0, false).unconvert(null);
     }
 
 }

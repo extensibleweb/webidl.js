@@ -1,4 +1,4 @@
-/// <reference path="WebIDL.ts" />
+﻿/// <reference path="WebIDL.ts" />
 declare var WebIDL2: WebIDL.WebIDL2;
 "use strict";
 
@@ -112,6 +112,86 @@ class JSValue {
 
 
 
+/// 
+/// WebIDL converters
+/// 
+
+module WebIDL {
+
+    export interface ConvertersCollection {
+        [name: string]: WebIDL.Converter<any>
+    }
+
+    export interface Converter<T> {
+
+        // return true if “v” is a normal JS value for an instance of V
+        canCast(v: any): bool
+
+        // return true if “v” could be converted to an instance of V
+        canConvert(v: any): bool
+
+        // return “v” if it is an instance of V, or throw
+        cast(v: any): T
+
+        // convert “v” to an instance of V, or throw
+        convert(v: any, attributes?: IDLAttribute[]): T
+
+        // convert “v” to an instance of V, or throw
+        unconvert(v: any, attributes?: IDLAttribute[]): T
+
+    }
+
+    export var Converters = <ConvertersCollection>{
+
+        // for browsers that understand that
+        __proto__: null,
+
+        // any converter (no-op)
+        "any": {
+            canCast: function (v) { return true; },
+            canConvert: function (v) { return true; },
+            cast: function (v) { return v; },
+            convert: function (v) { return v; },
+            unconvert: function (v) { return v; }
+        },
+
+        // boolean converter (toBoolean, by value)
+        "Boolean": {
+            canCast: function (v) { return typeof (v) === "boolean" || v instanceof Boolean; },
+            canConvert: function (v) { return true; },
+            cast: function (v) { if (this.canCast(v)) { return v } else { throw new Error("Invalid cast") } },
+            convert: function (v) { return !!v; },
+            unconvert: function (v) { return this.cast(v); }
+        },
+
+        // string converters (no-op)
+        "DOMString": {
+            canCast: function (v) { return typeof (v) === "string" || v instanceof String; },
+            canConvert: function (v) { return true; },
+            cast: function (v) { if (this.canCast(v)) { return v } else { throw new Error("Invalid cast") } },
+            convert: function (v) { return "" + v; },
+            unconvert: function (v) { return this.cast(v); }
+        },
+        "ByteString": { // ...
+            canCast: function (v) { return typeof (v) === "string" || v instanceof String; },
+            canConvert: function (v) { return true; },
+            cast: function (v) { if (this.canCast(v)) { return v } else { throw new Error("Invalid cast") } },
+            convert: function (v) { return "" + v; },
+            unconvert: function (v) { return this.cast(v); }
+        },
+
+        // number convertors (may act on range/precision)
+        "unrestricted double": {
+            canCast: function (v) { return typeof (v) === "number" || v instanceof Number; },
+            canConvert: function (v) { return true; },
+            cast: function (v) { if (this.canCast(v)) { return +v } else { throw new Error("Invalid cast") } },
+            convert: function (v) { return +v; },
+            unconvert: function (v) { return this.cast(v); }
+        }
+
+    };
+
+}
 
 
 ///
@@ -132,14 +212,14 @@ class IndentedStringBuilder {
     /// Add a new line at the end of the code block
     /// 
     append(s) {
-        this.code = (this.code? this.code+"\n": "") + (this.header + s).split("\n").join("\n" + this.header);
+        this.code = (this.code ? this.code + "\n" : "") + (this.header + s).split("\n").join("\n" + this.header);
     }
 
     /// 
     /// Add a new line at the beginning of the code block
     /// 
     prepend(s) {
-        this.code = (this.header + s).split("\n").join("\n" + this.header) + (this.code? "\n"+this.code: "");
+        this.code = (this.header + s).split("\n").join("\n" + this.header) + (this.code ? "\n" + this.code : "");
     }
 
     /// 
@@ -158,11 +238,11 @@ class IndentedStringBuilder {
 
 class TypeScriptHelper {
     out: HTMLElement;
-    
+
     ///
     ///
     ///
-    constructor (element?: HTMLElement) { 
+    constructor(element?: HTMLElement) {
         this.out = element;
     }
 
@@ -170,7 +250,7 @@ class TypeScriptHelper {
     ///
     ///
     private log(s) {
-        this.out.appendChild(document.createTextNode(s+"\n"));
+        this.out.appendChild(document.createTextNode(s + "\n"));
     }
 
     ///
@@ -224,7 +304,24 @@ class TypeScriptHelper {
         // compute the method body, if needed
         var hasBody = (opt && !opt.interface);
         if (hasBody) {
-            var body = "//\n// [...]\n//"; // TODO: generate converters
+
+            // code of the function
+            var body = "";
+
+            // arguments converter
+            for (var i = 0; i < op.arguments.length; i++) {
+                var a = op.arguments[i]
+                body += "\n" + a.name + " = WebIDL.Converter.FromType('" + a.idlType.idlType + "', " + (0 + a.idlType.array) + ", " + a.idlType.sequence + ").convert(" + a.name + ");";
+            }
+
+            // inner code
+            body += "\n//\n// [...]\n//";
+
+            // return value converter
+            if (op.idlType.idlType !== "new") {
+                body += "\nreturn WebIDL.Converter.FromType('" + op.idlType.idlType + "', "+(0+op.idlType.array)+", " + op.idlType.sequence + ").unconvert(null);";
+            }
+
             if (opt.bodyDecorator) body = opt.bodyDecorator(body);
         }
 
@@ -232,9 +329,10 @@ class TypeScriptHelper {
         return (
             (opt && opt.noName ? "" : op.name)
             + "(" + this.emitParameters(op.arguments, opt) + ")"
-            + (op.idlType.idlType == "new" ? "" : ": " + JSType.fromIDL(op.idlType))
-            + (hasBody ? "{\n"+(new IndentedStringBuilder(body,"    "))+"\n}" : ";")
+            + (op.idlType.idlType === "new" ? "" : ": " + JSType.fromIDL(op.idlType))
+            + (hasBody ? "{" + (new IndentedStringBuilder(body, "    ")) + "\n}" : ";")
         );
+    
     }
 
     ///
@@ -266,7 +364,7 @@ class TypeScriptHelper {
     private emitInterface(type: WebIDL.IDLInterfaceEntry, opt?: any) {
         var generateInterface = (!opt || !("interface" in opt) || (opt.interface));
 
-        var esb = new IndentedStringBuilder("","");
+        var esb = new IndentedStringBuilder("", "");
         var isb = new IndentedStringBuilder("", "    ");
 
         if (generateInterface) {
@@ -276,7 +374,7 @@ class TypeScriptHelper {
                 "interface " + type.name
                 + ((type.inheritance) ? (" extends " + type.inheritance) : "")
                 + " {"
-            );
+                );
 
         } else {
 
@@ -285,7 +383,7 @@ class TypeScriptHelper {
                 "class " + type.name
                 + ((type.inheritance) ? (" extends " + type.inheritance) : "")
                 + " {"
-            );
+                );
 
             // TODO: constructor?
             if (type.extAttrs) {
@@ -316,10 +414,10 @@ class TypeScriptHelper {
                         {
                             interface: false,
                             bodyDecorator: function (s) { 
-                                return "var self = this/*or reuse existing DOM objects by changing their prototype*/;\n" + s + "\nreturn self;"
+                                return "\nvar self = this/*or reuse existing DOM objects by changing their prototype*/;" + s + "\nreturn self;"
                             }
                         }
-                    ));
+                        ));
                 }
             }
 
@@ -477,18 +575,18 @@ class TypeScriptHelper {
     ///
     ///
     ///
-    parseIDLString(input:string, generateInterface: boolean = true) {
+    parseIDLString(input: string, generateInterface: boolean = true) {
 
         // now, let's take an input an analyze it
         var t = WebIDL2.parse(input)
         t.forEach((e) => {
 
-            this.log("// " + e.type + " " + (e.name||(<any>e).target||'anonymous'));
-            switch(e.type) {
+            this.log("// " + e.type + " " + (e.name || (<any>e).target || 'anonymous'));
+            switch (e.type) {
                 case "interface":
                 case "callback interface":
                 case "dictionnary":
-                    this.log(this.emitInterface(<WebIDL.IDLInterfaceEntry>e, { interface: generateInterface||(e.type!="interface") }));
+                    this.log(this.emitInterface(<WebIDL.IDLInterfaceEntry>e, { interface: generateInterface || (e.type != "interface") }));
                     break;
 
                 case "implements":
@@ -511,5 +609,5 @@ window.onload = () => {
     var input = <HTMLTextAreaElement> document.getElementById('input');
     var output = document.getElementById('output');
     var tests = new TypeScriptHelper(output);
-    tests.parseIDLString(input.value,false);
+    tests.parseIDLString(input.value, false);
 };
