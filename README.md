@@ -4,7 +4,11 @@ An implementation of [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) in [ECMAScr
 
 ## Installation
 ```bash
+# If you depend on this in production, install with --save flag
 npm install --save webidl
+
+# Otherwise, install with --save-dev
+npm install --save-dev webidl
 ```
 
 ## Goals and Scope
