@@ -1,4 +1,8 @@
 # webidl.js
+[![Build Status](https://travis-ci.org/extensibleweb/webidl.js.svg?branch=master&maxAge=2592)](https://travis-ci.org/extensibleweb/webidl.js)
+[![NPM version](https://badge.fury.io/js/webidl.svg?maxAge=2592)](http://badge.fury.io/js/webidl)
+[![Dependency Status](https://img.shields.io/david/dev/extensibleweb/webidl.js.svg?maxAge=2592)](https://david-dm.org/extensibleweb/webidl.js)
+[![npm](https://img.shields.io/npm/dm/webidl.svg?maxAge=2592)](https://npm-stat.com/charts.html?package=webidl)
 
 An implementation of [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) in [ECMAScript](http://es5.github.com/).
 
