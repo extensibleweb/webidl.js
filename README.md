@@ -32,8 +32,8 @@ WebIDLCompiler will be based on Robin Berjon's [WebIDL Parser](https://github.co
 
 ```
 interface WebIDLCompiler : WebIDL{
-    static DOMString compile(DOMString dataFragment);
-    static DOMString compile(object dataTree);
+  static DOMString compile(DOMString dataFragment);
+  static DOMString compile(object dataTree);
 }
 
 interface WebIDL{
@@ -49,15 +49,15 @@ Given some WebIDL, like:
 
 ```JavaScript
 interface Vehicle {
-    attribute DOMString make;
-    attribute DOMString model;
-    void move();
+  attribute DOMString make;
+  attribute DOMString model;
+  void move();
 }
 
 [Constructor, Constructor(DOMString make, optional DOMString model)]
 interface Car : Vehicle {
-     const octet maxspeed = 200;
-     void drive([Clamp] octet speed);
+  const octet maxspeed = 200;
+  void drive([Clamp] octet speed);
 };
 ```
 
