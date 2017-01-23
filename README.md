@@ -6,6 +6,15 @@
 
 An implementation of [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) in [ECMAScript](http://es5.github.com/).
 
+## Installation
+```bash
+# If you depend on this in production, install with --save flag
+npm install --save webidl
+
+# Otherwise, install with --save-dev
+npm install --save-dev webidl
+```
+
 ## Goals and Scope
 
 The initial goal of this project is to implement a "prollyfill" code generator based on the [WebIDL](http://dev.w3.org/2006/webapi/WebIDL/) specification in [ECMAScript](http://es5.github.com/) (i.e., implement the [WebIDL ECMAScript bindings](http://dev.w3.org/2006/webapi/WebIDL/#ecmascript-binding)). 
